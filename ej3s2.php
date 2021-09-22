@@ -2,12 +2,9 @@
 <HEAD><TITLE> EJ1-Conversion IP Decimal a Binario </TITLE></HEAD>
 <BODY>
 <?php
-
 	$ip="192.168.16.100/16";
 	//1110010100011001001011000100100
-	echo "<br>";
-	
-	
+
 	//IP
 	echo "<b>IP: 192.168.16.100</b> <br>";
 	$array = [];
@@ -16,12 +13,16 @@
 	$array[3]=decbin(204);
 	
 	
-	$numero =16;
+	$numero =128;
 	$array2 = [8];
 	
-		for($i=0;$i<=7;$i++) {
-			$operacion=$numero%2;
-			$array2[$i]=$operacion;
+		for($i=0;$i<8;$i++) {
+			if($numero==16){
+				$array2[$i]=1;
+			}
+			else{
+				$array2[$i]=0;
+			}
 			$numero=$numero/2;
 		}
 	$array[2]= implode($array2)."."; 
@@ -67,19 +68,22 @@
 	
 	$red = $array;
 	
-	echo "<b>Direccion de Red: 192.168.0.0</b> <br>";
-	for($i=0; $i<=3; $i++){
-		if($i>=2){
-			$red[$i]=0;
-		}
-		echo $red[$i];
-	}
+	echo "<b>Direccion de Red:</b> <br>";
+	echo $red[0]=bindec($red[0]).".";
+	echo $red[1]=bindec($red[1]).".";
+	echo $red[2]=(0).".";
+	echo $red[3]=(0);
 	
 //Primera direccion IP
 	
 	echo "<br><br>";
-	
+	$host = $array;
 	echo "<b>Primera direccion IP: 192.168.0.1</b> <br>";
+	
+	echo $host[0]=bindec($host[0]).".";
+	echo $host[1]=bindec($host[1]).".";
+	echo $host[2]=(0).".";
+	echo $host[3]=(1);
 	
 
 			
