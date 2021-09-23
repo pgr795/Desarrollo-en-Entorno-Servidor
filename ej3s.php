@@ -3,84 +3,66 @@
 <BODY>
 <?php
 
-	$ip="192.168.16.100/16";
-	//1110010100011001001011000100100
-	echo "<br>";
+	//IP //1110010100011001001011000100100
+	$ip="192.168.16.100";
+	$mascara="16";
+	$direccion = explode(".",$ip);
 	
-	
-	//IP
-	echo "<b>IP: 192.168.16.100</b> <br>";
-	$array = [];
-	$array[0]=decbin(192).".";
-	$array[1]=decbin(168).".";
-	$array[3]=decbin(204);
-	
-	
-	$numero =16;
-	$array2 = [8];
-	
-		for($i=0;$i<=7;$i++) {
-			$operacion=$numero%2;
-			$array2[$i]=$operacion;
-			$numero=$numero/2;
-		}
-	$array[2]= implode($array2)."."; 
-	
-	for($i=0; $i<=3; $i++){
-		echo $array[$i];
-	}
+	echo $direccion[0].".".$direccion[1].".".$direccion[2].".".$direccion[3];
+
 	
 	echo "<br><br>";
+	/* $var=0;
+	$var1=0;
+	$var2=0;
+	$var3=0;
+	$mascara=0; */
 	
-	//MASCARA
-	//11111111.11111111.00000000.00000000
+	
+//MASCARA	//11111111.11111111.00000000.00000000
 	echo "<b>MASCARA:16</b><br>";
-	$mascara = [];
-	for($i=0;$i<=32;$i++){
-		if($i<16){
-			$mascara[$i]=1;
+	$mascara=decbin($mascara);
+	echo "<br>";
+	echo $mascara."<br>";
+	echo gettype($mascara);
+	
+	for($i=0;$i<8;$i++){
+		if($mascara[$i]==1){
+			echo $mascara[$i];
 		}
 		else{
 			$mascara[$i]=0;
+			echo $mascara[$i];
 		}
 	}
-	
-	for ($i=0; $i<32; $i++) {
-		 if($i==8){
-			 echo ".";
-		 }
-		 elseif ($i==16){
-			 echo ".";
-		 }
-		 elseif ($i==24){
-			 echo ".";
-		 }
-		  elseif ($i==32){
-			 echo ".";
-		 }
-		 echo $mascara[$i];
-		}
+
 	
 //Direccion de RED
 	
 	echo "<br><br>";
 	
-	$red = $array;
 	
 	echo "<b>Direccion de Red: 192.168.0.0</b> <br>";
-	for($i=0; $i<=3; $i++){
-		if($i>=2){
-			$red[$i]=0;
-		}
-		echo $red[$i];
-	}
+
 	
-//Primera direccion IP
+//Primera direccion de HOST
 	
 	echo "<br><br>";
 	
 	echo "<b>Primera direccion IP: 192.168.0.1</b> <br>";
 	
+// Ultima direccion de HOST
+
+
+
+//Broadcast
+
+
+
+
+
+
+
 
 			
 	// array_chunk () Divide una matriz en trozos de matrices
@@ -99,4 +81,3 @@
 ?>
 </BODY>
 </HTML>
-
