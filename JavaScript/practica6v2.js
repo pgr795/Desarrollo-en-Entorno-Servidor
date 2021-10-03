@@ -9,10 +9,11 @@ function comprobar(){
 var texto = document.Formulario.caja1.value;
 var minusculas = "abcdefghijklmnñopqrstuvwxyz";
 var mayusculas = minusculas.toUpperCase();
-var validaLetra=false;
-var validoTexto=false;
-var caracterInicial;
-var letras;
+let adicionales="-ºª/ ";
+var validaPrimeraLetra=false;
+var validaUltimaLetra=false;
+var validoTexto=true;
+var letras="";
 var minuscula;
 var mayuscula;
 var longitud;
@@ -21,46 +22,106 @@ var longitud;
 //Longitud
 	longitud = texto.length;
 	if(longitud<3 || longitud>27){
-		validaLetra=false;
-		validoTexto=false;
+		validaPrimeraLetra=false;
+		validaUltimaLetra=false;
+		validoTexto=true;
 	}
 	else{
 		//EMPIEZA Y TERMINA POR UNA LETRA
-			caracterInicial = texto[0]; //PRIMERA LETRA
+			var caracterInicial = texto[0]; //PRIMERA LETRA
+			var caracterFinal = texto.slice(-1); //ULTIMA LETRA
+			console.log(caracterInicial);
+			console.log(caracterFinal);
 			
-			//MINUSCULAS
-			for(m=0; m<=minusculas.length; m++){
+			//PRIMERA LETRA
+			for(m=0; m<minusculas.length; m++){
 				minuscula=minusculas[m];
 					if(caracterInicial == minuscula){
-						validaLetra=true;
+						validaPrimeraLetra=true;
 					}
-					else if(validaLetra){
+					else if(validaPrimeraLetra){
 						break;
 					}
 					else{
-						validaLetra=false;
-						//MAYUSCULAS
-						for(y=0;y<=mayusculas.length;y++){
+						validaPrimeraLetra=false;
+						for(y=0;y<mayusculas.length;y++){
 							mayuscula=mayusculas[y];
 								if(caracterInicial == mayuscula){
-									validaLetra=true;										
+									validaPrimeraLetra=true;										
 								}
-								else if(validaLetra){
+								else if(validaPrimeraLetra){
 									break;
 								}
 								else{
-									validaLetra=false;																		
+									validaPrimeraLetra=false;																		
 								}
 						}			
 					}
-				
 			}
 			
-		for(i=0;i<=texto.length;i++){	
+			//ULTIMA LETRA
+			for(m=0; m<minusculas.length; m++){
+				minuscula=minusculas[m];
+					if(caracterFinal == minuscula){
+						validaUltimaLetra=true;
+					}
+					else if(validaUltimaLetra){
+						break;
+					}
+					else{
+						validaUltimaLetra=false;
+						for(y=0;y<mayusculas.length;y++){
+							mayuscula=mayusculas[y];
+								if(caracterFinal == mayuscula){
+									validaUltimaLetra=true;										
+								}
+								else if(validaUltimaLetra){
+									break;
+								}
+								else{
+									validaUltimaLetra=false;																		
+								}
+						}			
+					}
+			}
+			
+			
+		// AQUI ESTA EL FALLO 
+/* 		for(i=1;i<=texto.length-1;i++){	
 			letras=texto[i];
 			console.log(letras);
-			if(letras == "º" || letras == "ª" || letras == "-" || letras == ""|| 
-			letras == minuscula || letras == mayuscula )
+			if(!(letras == "º" || letras == "ª" || letras == "-" || letras == " ") ||
+				(letras < "a" || letras > "z") )
+			{
+				validoTexto=false;
+			}
+			else{
+				validoTexto=true;
+			}
+		}	
+	}		
+ */
+/* 
+	for(i=1;i<=texto.length-1;i++){	
+			letras=texto[i];
+			console.log(letras);
+			if((texto.charAt(i) < 'a' || texto.charAt(i) > 'z'))
+			{
+				validoTexto=true;
+				console.log(validoTexto);
+			}
+			else{
+				validoTexto=false;
+				console.log(validoTexto);
+			}
+		}	
+	}		
+ */
+
+	/* for(i=1;i<=texto.length-1;i++){	
+			letras=texto[i];
+			console.log(letras);
+			if(!texto[i] < "a" || texto[i] > "z")
 			{
 				validoTexto=true;
 			}
@@ -68,11 +129,34 @@ var longitud;
 				validoTexto=false;
 			}
 		}	
-	}				
+	}	
+ */
 
-	console.log(validaLetra);
+
+				let posicion=1;
+				while (validoTexto && posicion < texto.length -1)
+							{	
+								if ((texto.charAt(posicion)  < 'a' || texto.charAt(posicion) > 'z') && 
+									!(texto.charAt(posicion) < '0' || texto.charAt(posicion) > '9'))
+									{
+										validoTexto=false;
+									}
+								posicion+=1;
+							}
+	}
+	
+				
+
+
+	console.log(validaPrimeraLetra);
+	console.log(validaUltimaLetra);
 	console.log(validoTexto);
-	if(validoTexto && validaLetra ){
+	
+	//VALIDA LOS TRES BOOLEAN 
+	//TE VA A DAR SIEMPRE INCORRECTO PORQUE LA PRIMERA Y LA ULTIMA LETRA TE DARA TRUE, EN CAMBIO VALIDOTEXTO SIEMPRE 
+	//TE DARA NEGATIVO PORQUE ESE BUCLE FOR NO RECONOCE NINGUN CARACTER. SI QUITAS EN IF DE ABAJO VALIDO TEXTO FUNCIONA
+	
+	if(validaPrimeraLetra && validaUltimaLetra && validoTexto){
 			document.Formulario.caja2.value="Correcto";
 	}
 	else{
