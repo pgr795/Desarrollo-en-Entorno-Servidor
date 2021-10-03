@@ -133,16 +133,12 @@ var longitud;
  */
 
 
-				let posicion=1;
-				while (validoTexto && posicion < texto.length -1)
-							{	
-								if ((texto.charAt(posicion)  < 'a' || texto.charAt(posicion) > 'z') && 
-									!(texto.charAt(posicion) < '0' || texto.charAt(posicion) > '9'))
-									{
-										validoTexto=false;
-									}
-								posicion+=1;
-							}
+			for(i=0;i<texto.length;i++) {
+			letras=texto[i];
+			if(!minusculas.includes(letras) && !mayusculas.includes(letras) && 
+			letras != "º" && letras != "ª" && letras != "-" && letras != " ")
+				validoTexto=false;
+		}	
 	}
 	
 				
