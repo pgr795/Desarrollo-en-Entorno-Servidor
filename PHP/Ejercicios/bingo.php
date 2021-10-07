@@ -15,7 +15,6 @@
 /* $array //cartones   */
 $aciertos=0;
 $limiteAcierto=15;
-
 $carton = array (random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),
 random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),
 random_int(1, 60),random_int(1, 60));
@@ -45,7 +44,6 @@ for($i=0;$i<14;$i++){
 echo $carton[$i]."<br>";
 }
 
-
 foreach ($carton as $clave => $valor) {
     echo "carton[" . $clave . "] = " . $valor . "\n <br>";
 }
@@ -58,6 +56,10 @@ foreach ($carton as $clave => $valor) {
 30=>array(21,22,23,24,25,26,27,28,29,30),
 ); */
 
+//BOMBO
+for($i=0; $i<60;$i++) {
+    $bombo[$i]=$i+1;
+}
  
 
 var_dump($carton);
