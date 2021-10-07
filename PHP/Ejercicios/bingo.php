@@ -15,9 +15,7 @@
 /* $array //cartones   */
 $aciertos=0;
 $limiteAcierto=15;
-$carton = array (random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),
-random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),random_int(1, 60),
-random_int(1, 60),random_int(1, 60));
+$carton = array();
 
 
 foreach ($carton as $clave => $valor) {
@@ -26,41 +24,45 @@ foreach ($carton as $clave => $valor) {
 
 echo "<br>";
 //Comprobar si se repite un numero y en caso de que se repita cambiarlo
-for($i=0;$i<14;$i++){
-	/* while($carton[$i]==$carton[$i+1]){
-		$carton[$i]=random_int(1,60);
-	} */
-	$valor1=$carton[$i];
-	/* echo "<p style=color:blue>".$valor1."</p>"; */
-	for($y=1;$y<14;$y++){
-		$valor2=$carton[$y];
-	/* 	echo "<p style=color:red>".$valor2."</p>"; */
-		if($valor1==$valor2){
-			while($valor1!=$valor2){
-				$carton[$i]=random_int(1,60);
-			}
-		}
+$contador=0;
+	while (count($carton)<15)
+	{
+		$bola=rand(1,60);	
+		if (! (in_array($bola,$carton)))
+			$carton[$contador++]=$bola;
 	}
-echo $carton[$i]."<br>";
-}
+
+sort($carton);
 
 foreach ($carton as $clave => $valor) {
     echo "carton[" . $clave . "] = " . $valor . "\n <br>";
 }
 
+//BOMBO
+$bombo[1]=1;
+for($i=2; $i<61;$i++) {
+	$bombo[$i]=$i;
+}
 
+//JUGAR
+$BolaExtraida=rand(1,60);
 
-/* $bombo= array ( 
-10=>array(0,1,2,3,4,5,6,7,8,9,10),
-20=>array(11,12,13,14,15,16,17,18,19,20),
-30=>array(21,22,23,24,25,26,27,28,29,30),
-); */
+$
+//Jugador
+if(in_array($bolaExtraida,$carton)){
+	
+
+}
 
 //BOMBO
-for($i=0; $i<60;$i++) {
-    $bombo[$i]=$i+1;
+if(in_array){
+	
+	
 }
- 
+
+
+//array_search — Busca un valor determinado en un array y devuelve la primera clave correspondiente en caso de éxito
+//array_replace — Reemplaza los elementos del array original con elementos de array adicionales 
 
 var_dump($carton);
 var_dump($bombo);
