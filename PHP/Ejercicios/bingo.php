@@ -60,7 +60,7 @@ if(in_array($bolaExtraida,$carton)){
 	echo "acierto";
 }
 else if (!(in_array($bolaExtraida,$carton))){
-	echo "jodete";
+	echo "fallo";
 
 }
 //BOMBO
