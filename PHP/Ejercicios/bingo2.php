@@ -6,28 +6,76 @@
  */
 
 
+/* Si hay linea  */
+
 /* 0 1 2 3 4 5 6
 0 	
 1
 2 */
-/* $array cartones   */
+/* $array //cartones   */
 
 echo "<br>";
 //CREAR Y COMPROBAR SI SE REPITE UN NUMERO Y EN CASO DE QUE SE REPITA CAMBIARLO
 $contador=0;
-//Generar con un for y Asignar a cada jugador sus tres cartones
-//Intentado primero hacerlo el programa con uno para hacerlo con tres
-$carton = array();
-	while (count($carton)<15)
+$contador2=0;
+
+
+
+	$carton1 = array();
+	while (count($carton1)<15)
 	{
 		$bola=rand(1,60);	
-		if (!(in_array($bola,$carton)))
-			$carton[$contador++]=$bola;
+		if (!(in_array($bola,$carton1)))
+			$carton1[$contador++]=$bola;
 	}
+	
 
-sort($carton);
+	
+	sort($carton1);
+	
+$jugador = array (
+	$carton1,
+	$carton2,
+	$carton3
+);
 
-foreach ($carton as $clave => $valor) {
+$jugador2 = array (
+	$carton4,
+	$carton5,
+	$carton6
+);
+
+$jugador2 = array (
+	$carton7,
+	$carton8,
+	$carton9
+);
+
+/* while (count($carton)<3)
+	{
+		$jugador[$contador++]=$carton;
+	} */
+
+/* function generarCarton(){
+	$contador=0;
+	$carton = array();
+		while (count($carton)<15)
+		{
+			$bola=rand(1,60);	
+			if (!(in_array($bola,$carton)))
+				$carton[$contador++]=$bola;
+		}
+	sort($carton);
+}
+
+$jugador = array();
+
+while (count($jugador)<3)
+	{
+		$jugador[$contador++]=generarCarton();
+	} */
+
+foreach ($carton1 as $clave => $valor) {
     echo "carton[" . $clave . "] = " . $valor . "\n <br>";
 }
 
@@ -37,68 +85,57 @@ for($i=2; $i<61;$i++) {
 	$bombo[$i]=$i;
 }
 //JUGAR
-//Las variables sacados y tachados es para control de errores
 $sacados= array();
 $tachados= array();
 $posicionCarton=0;
 $posicionSacados=0;
+$bolaExtraida;
+$aciertos=0;
 
+	/* $aciertos=0;
+	$limiteAcierto=15; */
+	
 //BOMBO
-
-$bolaExtraida=rand(1,60);	
-//Sacar una bola, vaya a la posicion del bombo y ponga 0.
-// No he conseguido que todos los numeros del bombo se ponga a cero.
-// Se repite los numeros y por eso no se me pone a cero todos los valores
-for($i=0;$i<60;$i++){
-		if((in_array($bolaExtraida,$bombo)))
-		{
-			$aux=array_search($bolaExtraida,$bombo);
-			$bombo[$aux]=0;
-			$sacados[$posicionSacados++]=$bolaExtraida;
-		}
-		else if(in_array($bolaExtraida,$bombo))
-			{
-				$bolaExtraida=rand(1,60);
-			}
+$contador=0;
+while($contador !=60){
+	$bolaExtraida=rand(1,60);
+	if(in_array($bolaExtraida,$bombo)){
+		$aux=$bombo[$bolaExtraida]=0;
+		$sacados[$posicionSacados++]=$bolaExtraida;
+		$contador++;
+	}
+	elseif($bombo[$bolaExtraida]==0 || in_array($bolaExtraida,$sacados)){
+		$bolaExtraida=rand(1,60);
 	}
 
 
 //Jugador
-//Cuando extraiga la bola busque en el carton, ponga esa posicion a 0 y sume 1 al variable contador
-//Funciona pero a causa que el bombo nunca se vacia siempre se llena
-	if(in_array($bolaExtraida,$carton)){
-		$tachados[$posicionCarton++]=$bolaExtraida;
-		$bola=array_search($bolaExtraida,$carton);
-		$carton[$bola]=0;
-		$acierto++;
 
+	if(in_array($bolaExtraida,$carton1)){
+		$tachados[$posicionCarton++]=$bolaExtraida;
+		$bola=array_search($bolaExtraida,$carton1);
+		$carton1[$bola]=0;
 		echo "acierto<br>";
+		$aciertos++;
+		if($aciertos==15){
+			echo "Has ganado";
+			break;
+		}	
 	}
-	else if (!(in_array($bolaExtraida,$carton))){
+	else if (!(in_array($bolaExtraida,$carton1))){
 		echo "No te ha tocado<br>";
 	}
-	
-//Si el jugador ha llegado a los 15 aciertos a ganado
-//En caso de que sea 4 jugadores pondria $acierto1,$acierto2,$acierto3,$acierto4 
-// Dentro del If de abajo con || 
-	
-//if($acierto1==15 || $acierto2==15 || $acierto3== 15 || $acierto4==15)
-	if($acierto==15){
-		echo "Has ganado";
-	}
-	else{
-		echo "No has ganado"; 
-	}
-}	
+}
 	
 
 //array_search — Busca un valor determinado en un array y devuelve la primera clave correspondiente en caso de éxito
 //array_replace — Reemplaza los elementos del array original con elementos de array adicionales 
-sort($sacados);
+
 var_dump($bombo);
 var_dump($sacados);
-//var_dump($carton);
-//var_dump($tachados); 
+var_dump($carton1);
+var_dump($tachados);
+var_dump($jugador);
 
 
 
