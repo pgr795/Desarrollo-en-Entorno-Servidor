@@ -1,20 +1,4 @@
   <?php
-/* 4 jugadores
-3 cartones
-15 numeros cada uno
-3 repartidos en 3 lineas
- */
-
-
-/* Si hay linea  */
-
-/* 0 1 2 3 4 5 6
-0 	
-1
-2 */
-/* $array //cartones   */
-
-
 echo "Bingo";
 $contador=0;
 echo "<br>";
@@ -32,7 +16,6 @@ function CrearCarton(){
 	sort($carton);
 	return $carton;
 }
-// JUF	
 	$carton1 = CrearCarton();
 	$carton2 = CrearCarton();
 	$carton3 = CrearCarton();
@@ -42,7 +25,6 @@ function CrearCarton(){
 	$carton7 = CrearCarton();
 	$carton8 = CrearCarton();
 	$carton9 =CrearCarton();
-	
 	
 $jugador = array (
 	$carton1,
@@ -62,53 +44,45 @@ $jugador3 = array (
 	$carton9
 );
 
-	//Jugador1
+//Jugador1
 	echo "Jugador1";
 	echo "<br>";
 	echo "<br>";
-	 foreach($jugador as $clave => $valor) 
- {
-    echo "Carton $clave:";
 	
+foreach($jugador as $clave => $valor){
+    echo "Carton $clave:";
 	foreach ($valor as $indice => $numeros)
-	  echo " ".$numeros;
-	  
-	echo "<br>";
+		echo " ".$numeros;
+		echo "<br>";
  }
  
-	//Jugador2
+//Jugador2
 	echo "<br>";
 	echo "<br>";
  	echo "Jugador2";
 	echo "<br>";
 	echo "<br>";
 	
-	 foreach($jugador2 as $clave => $valor) 
- {
+foreach($jugador2 as $clave => $valor){
     echo "Carton $clave:";
-	
 	foreach ($valor as $indice => $numeros)
-	  echo " ".$numeros;
-	  
-	echo "<br>";
+		echo " ".$numeros;  
+		echo "<br>";
  }
  
-	//Jugador3
+//Jugador3
 	echo "<br>";
 	echo "<br>";
  	echo "Jugador3";
 	echo "<br>";
 	echo "<br>";
 	
-	 foreach($jugador3 as $clave => $valor) 
- {
+foreach($jugador3 as $clave => $valor){
     echo "Carton $clave:";
-	
-	foreach ($valor as $indice => $numeros)
-	  echo " ".$numeros;
-	  
-	echo "<br>";
- }
+		foreach ($valor as $indice => $numeros)
+		 echo " ".$numeros;
+		 echo "<br>";
+	}
  
 //CREAR BOMBO
 $bombo[1]=1;
@@ -116,22 +90,17 @@ for($i=2; $i<61;$i++) {
 	$bombo[$i]=$i;
 }
 
-	//BOMBO
+//BOMBO
 	echo "<br>";
 	echo "<br>";
  	echo "Bombo";
 	echo "<br>";
 
-foreach($bombo as $clave => $valor) 
- {
+foreach($bombo as $clave => $valor){
     echo $valor;
-	echo "<br>";
- 
+	echo "<br>"; 
  }
  
-
-
-
 //JUGAR
 $sacados= array();
 $posicionSacados=0;
@@ -259,16 +228,7 @@ while($contador != 60){
 		  // $ganador=true; 
 	  }
 	}
-
-
-
-
-
-
-
 }
-
-
 /* 	
 Cartones 	0	1	2 
 Jugadores
@@ -276,7 +236,7 @@ Jugadores
 		1	*	*	*
 		2	*	*	*
 		*/
-
+		
 var_dump($aciertos);
 var_dump($aciertos2);
 var_dump($aciertos3);
@@ -286,17 +246,9 @@ var_dump($aciertos6);
 var_dump($aciertos7);
 var_dump($aciertos8);
 var_dump($aciertos9);
-
-
-	
 var_dump($bombo);
 var_dump($sacados);
-
 var_dump($jugador);
 var_dump($jugador2);
 var_dump($jugador3);
-
-//array_search — Busca un valor determinado en un array y devuelve la primera clave correspondiente en caso de éxito
-//array_replace — Reemplaza los elementos del array original con elementos de array adicionales 
-
 ?>
