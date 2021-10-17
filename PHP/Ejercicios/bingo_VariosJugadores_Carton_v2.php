@@ -1,4 +1,5 @@
-  <?php
+<?php
+ 
 echo "Bingo";
 $contador=0;
 echo "<br>";
