@@ -231,7 +231,7 @@ while($contador != 60){
 	}
 }
 /* 	
-Cartones 	0	1	2 
+Cartones 		0	1	2 
 Jugadores
 		0 	* 	*	*
 		1	*	*	*
