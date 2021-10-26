@@ -95,9 +95,9 @@ echo "<br>";
 		}
 		
 	//Jugador1
-		$aux1=carton1Tachados($bolaExtraida,$jugador);
-		$aux2=carton2Tachados($bolaExtraida,$jugador);
-		$aux3=carton3Tachados($bolaExtraida,$jugador);
+		$aux1=cartonTachados($bolaExtraida,$jugador[0]);
+		$aux2=cartonTachados($bolaExtraida,$jugador[1]);
+		$aux3=cartonTachados($bolaExtraida,$jugador[2]);
 			
 		if($aux1!=null){
 			array_push($aciertosJugador1[0],$aux1);
@@ -110,9 +110,9 @@ echo "<br>";
 		}
 			
 	//Jugador2
-		$aux4=carton1Tachados($bolaExtraida,$jugador2);
-		$aux5=carton2Tachados($bolaExtraida,$jugador2);
-		$aux6=carton3Tachados($bolaExtraida,$jugador2);
+		$aux4=carton1Tachados($bolaExtraida,$jugador2[0]);
+		$aux5=carton2Tachados($bolaExtraida,$jugador2[1]);
+		$aux6=carton3Tachados($bolaExtraida,$jugador2[2]);
 				
 		if($aux4!=null){
 			array_push($aciertosJugador2[0],$aux4);
@@ -125,9 +125,9 @@ echo "<br>";
 		}
 
 	//Jugador3	
-		$aux7=carton1Tachados($bolaExtraida,$jugador3);
-		$aux8=carton2Tachados($bolaExtraida,$jugador3);
-		$aux9=carton3Tachados($bolaExtraida,$jugador3);
+		$aux7=carton1Tachados($bolaExtraida,$jugador3[0]);
+		$aux8=carton2Tachados($bolaExtraida,$jugador3[1]);
+		$aux9=carton3Tachados($bolaExtraida,$jugador3[2]);
 				
 		if($aux7!=null){
 			array_push($aciertosJugador3[0],$aux7);
@@ -214,4 +214,5 @@ echo "<br>";
 			echo "J3 C3";
 		}
 	}
+
 ?>

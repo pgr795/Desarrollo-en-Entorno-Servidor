@@ -11,25 +11,9 @@ function ganadores($aciertos){
 		}
 	}
 
-	function carton1Tachados($bolaExtraida,$jugador){
+	function cartonTachados($bolaExtraida,$jugador){
 		$aux=0;		
-			if(in_array($bolaExtraida,$jugador[0])){
-				$aux=$bolaExtraida;
-				return $aux;
-			}
-	}
-	
-	function carton2Tachados($bolaExtraida,$jugador){
-		$aux=0;		
-			if(in_array($bolaExtraida,$jugador[1])){
-				$aux=$bolaExtraida;
-				return $aux;
-			}
-	}
-
-	function carton3Tachados($bolaExtraida,$jugador){
-		$aux=0;		
-			if(in_array($bolaExtraida,$jugador[2])){
+			if(in_array($bolaExtraida,$jugador)){
 				$aux=$bolaExtraida;
 				return $aux;
 			}	
@@ -63,7 +47,7 @@ function ganadores($aciertos){
 				echo "<br>";
 		}	
 	}
-
+	
 	function mostrarBombo($bombo){
 		foreach($bombo as $clave => $valor){
 			echo $valor.",";		
