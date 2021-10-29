@@ -47,7 +47,7 @@ function limpieza($datos) {
 
 var_dump($_POST);
 
-$fichero =fopen("alumnos1.txt","x");
+$fichero =fopen("alumnos1.txt","a");
 
 $nombre=str_pad($valor1,39);
 var_dump($nombre);
@@ -70,7 +70,7 @@ var_dump($localidad);
 
 $escritura=$nombre.$apellido.$apellido2.$fecha.$localidad;
 
-fwrite($fichero,$escritura);
+fwrite($fichero,$escritura."\n");
 
 fclose($fichero);
 
