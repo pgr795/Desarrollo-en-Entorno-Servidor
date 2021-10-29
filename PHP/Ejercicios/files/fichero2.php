@@ -19,7 +19,7 @@ var_dump($_POST);
 
 $fichero =fopen("alumnos2.txt","a");
 
-$escritura=$nombre."##".$apellido."##".$apellido2."##".$fecha."##".$localidad."\n";
+$escritura=$nombre."##".$apellido."##".$apellido2."##".$fecha."##".$localidad."##"."\n";
 
 fwrite($fichero,$escritura);
 

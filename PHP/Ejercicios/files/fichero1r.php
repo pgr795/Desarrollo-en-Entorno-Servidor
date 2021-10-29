@@ -5,16 +5,32 @@ echo "<body>";
 $fichero2=file("alumnos1.txt");
 var_dump($fichero2);
 
-$aux=implode(" ",$fichero2);
-var_dump($aux);
-
-$contenido=explode(" ",$aux);
-$resultado = array_unique($contenido);
-
-var_dump($resultado);
-
+echo "<table border='1px'>";
+echo "<tr>".
+			"<td>"."Nombre"."</td>".
+			"<td>"."Apellido1"."</td>".
+			"<td>"."Apellido2"."</td>".
+			"<td>"."Fecha"."</td>".
+			"<td>"."Localidad"."</td>".
+	"</tr>";
 foreach($fichero2 as $linea=>$texto) {
-	echo "<table style='border: solid;'>".
+	$nombre=substr($texto,0,39);
+	$Apellido1=substr($texto,39,40);
+	$Apellido2=substr($texto,79,42);
+	$Fecha=substr($texto,120,11);
+	$Localidad=substr($texto,132,27);
+	echo "<tr>".
+			"<td>".$nombre."</td>".
+			"<td>".$Apellido1."</td>".
+			"<td>".$Apellido2."</td>".
+			"<td>".$Fecha."</td>".
+			"<td>".$Localidad."</td>".
+	"</tr>";
+};
+echo "</table>";
+
+
+	/* "<table style='border: solid;'>".
 		 "<tr>".
 			"<td>"."Nombre"."</td>".
 			"<td>"."Apellido1"."</td>".
@@ -26,9 +42,7 @@ foreach($fichero2 as $linea=>$texto) {
 			"<td>"."Linea: ",$linea."</td>".
 			"<td>".$texto."</td>".
 		 "</tr>".
-		 "</table>";
-};
-
+	"</table>"; */
 echo "</body>";
 echo "</html>";
 ?>
