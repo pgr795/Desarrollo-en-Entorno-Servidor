@@ -7,8 +7,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $valor4 = limpieza($_POST["fichero"]);
 }
 
-
-
 function limpieza($datos) {
   $datos = trim($datos);
   $datos = stripslashes($datos);
@@ -19,16 +17,16 @@ function limpieza($datos) {
 $validar="";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($_POST["caja1"])) {
-    echo $validar = "Error: No se ha introducido ningun fichero";
+    echo $validar = "Error: No se ha introducido ningun fichero <br>";
   }
-  if (empty($_POST["caja2"])&& $valor4=="MostrarLinea") {
-    echo $validar = "Error: No se ha introducido ningun numero";
+  if (empty($_POST["caja2"]) && $valor4=="MostrarLinea") {
+    echo $validar = "Error: No se ha introducido ningun numero <br>";
   } 
   if (empty($_POST["caja3"])&& $valor4=="MostrarPrimeraLineas") {
-   echo $validar = "Error: No se ha introducido ningun numero";
+   echo $validar = "Error: No se ha introducido ningun numero <br>";
   } 
-  if (empty($_POST["fichero"])&& isset($_POST["fichero"])) {
-   echo $validar = "Error: No se ha seleccionado ninguna operacion";
+  if (empty($_POST["fichero"])) {
+   echo $validar = "Error: No se ha seleccionado ninguna operacion <br>";
   } 
 }
 
@@ -50,15 +48,16 @@ $nombre_fichero = $valor1;
 
 	if (file_exists($nombre_fichero)) {
 	   
-	   if($valor4=="MostrarFichero"){
+	   if($valor4=="MostrarFichero" ){
 			$fichero=readfile("$nombre_fichero");
 			echo "<br>";
 			readfile("$nombre_fichero");
 	   }
 	   
-	   if($valor4=="MostrarLinea"){
+	   if($valor4=="MostrarLinea" && !empty($valor2)){
 			$fichero=file($nombre_fichero);
 			// var_dump($fichero);
+			$valor2=(int)$valor2;
 			foreach($fichero as $linea=>$texto) {
 				if($linea==$valor2){
 					echo "<b>Linea ".$linea."</b><br>".$texto;
@@ -66,7 +65,6 @@ $nombre_fichero = $valor1;
 				}
 			}
 	   }
-	   
 	   if($valor4=="MostrarPrimeraLineas"){
 			$fichero=file($nombre_fichero);
 			$valor3=(int)$valor3;
