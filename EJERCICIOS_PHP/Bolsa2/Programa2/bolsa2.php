@@ -1,6 +1,4 @@
 <?php
-var_dump($_POST);
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if(empty($_POST["caja1"])) {
     $validar = "Error";
@@ -19,29 +17,20 @@ function limpieza($datos) {
   return $datos;
 }
 
-$Valor=array();
-$Ultimo=array();
+$nombre=$valor1;
 
 $archivo=file("ibex35.txt");
 
 foreach($archivo as $indice => $valor) {
-		if($indice!=0){
-			$aux=$valor." ";
-			$Valor[$indice]=substr($aux,0,17);
-			echo substr($Valor[$indice],0,17)."<br>";
+		$aux=substr($valor,0,17);
+		$nombre=strtoupper($nombre);
+		$aux=trim($aux," ");
+
+		if($aux==$nombre){
+			$valores=substr($valor,0,97);
+			echo "<h3>".$valores."</h3>";
 		}	
 }
-
-foreach($archivo as $indice => $valor) {
-		if($indice!=0){
-			$aux=$valor." ";
-			$Ultimo[$indice]=substr($aux,23,6);
-			echo substr($Ultimo[$indice],23,6)."<br>";
-		}	
-}
-
-
-
 
 
  //trim()
@@ -49,7 +38,5 @@ foreach($archivo as $indice => $valor) {
  //str_replace
  //parse_str — Convierte el string en variables
  //explode
-var_dump($Valor);
-var_dump($Ultimo);
 
 ?>

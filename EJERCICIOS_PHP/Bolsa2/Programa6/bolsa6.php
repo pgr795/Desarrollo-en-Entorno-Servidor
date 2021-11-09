@@ -1,64 +1,49 @@
-<?php 
-$valor1;
-
-
-
+<?php
+include('funcionesBasicas.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $valor1 = limpieza($_POST["caja1"]);
+  $valor1 = limpieza2($_POST["caja1"]);
+  $valor2 = limpieza2($_POST["caja2"]);
 }
+/* var_dump($_POST); */
+$fichero="ibex35.txt";
 
-function limpieza($datos) {
-  $datos = trim($datos);
-  $datos = stripslashes($datos);
-  $datos = htmlspecialchars($datos);
-  return $datos;
-}
+$nombresValor=nombres($fichero);
+$min=minimo($fichero);
+$nombre1=$valor1;
+$nombre2=$valor2;
 
-$separar = explode(".",$valor1);
+$numero;
+$numero2;
+$resultado;
+echo "<table border=1px>";
+echo "<tr>";
+echo "<td>VALOR</td>";
+echo "<td>MINIMO</td>";
+echo "</tr>";
 
+if(in_array("$nombre1",$nombresValor)){
+		$clave = array_search("$nombre1", $nombresValor); 
+	echo "<tr>";
+		echo "<td>".$nombresValor[$clave]."</td>";
+		echo "<td>".$min[$clave]."</td>";
+		$numero=floatval($min[$clave]);
+	echo "</tr>";
+}	
+if(in_array("$nombre2",$nombresValor)){
+		$clave2 = array_search("$nombre2", $nombresValor); 
+	echo "<tr>";
+		echo "<td>".$nombresValor[$clave2]."</td>";
+		echo "<td>".$min[$clave2]."</td>";
+		$numero2=floatval($min[$clave2]);
+	echo "</tr>";
+}	
 
-$num1=binarios($separar[0]);
-$num2=binarios($separar[1]);
-$num3=binarios($separar[2]);
-$num4=binarios($separar[3]);  //($array[3]);
+$resultado=($numero+$numero2)/2;
 
-$array = array($num1,$num2,$num3,$num4);
-$resultadoFinal = implode(".", $array);
-
-
-function binarios($numero){
-$aux=decbin($numero);
-// var_dump($aux);
-	
-	if($numero<=127){
-		$length = 8;
-		$binario = substr(str_repeat(0, $length).$aux, - $length);
-		$aux=$binario;
-	}
-	return $aux;
-}
-
-echo	"<h1><b>IP</b></h1>
-			<div>
-				<label for='Caja1'>IP notacion decimal</label>
-					<input type='text' name='caja1' value='$valor1'/> <br />
-			</div>
-			<br />
-			<div>
-				<label for='Caja2'>IP Binario</label>
-					<input type='textarea' name='caja2' value='$resultadoFinal' /> <br />
-			</div>"
-			;
-
-
-// var_dump($_POST);
-// var_dump($separar);
-// var_dump($num1);
-// var_dump($num2);
-// var_dump($num3);
-// var_dump($num4);
-// var_dump($array);
-// var_dump($resultadoFinal);
-
+echo "<tr>
+		<td>VALOR MEDIO</td>
+		<td>".$resultado."</td>
+	</tr>";
+echo "</table>";
 
 ?>

@@ -1,29 +1,40 @@
 <!DOCTYPE html>
- <form name="formulario" method="post" action="datos.php">
-        
-        <h1>Datos Alumnos</h1>
-
-        <label for="nombre">Nombre:</label> 
-        <input type="text" name="nombre">* Obligatorio <br>
-
-        <label for="apellido1">Apellido 1:</label>
-        <input type="text" name="apellido1"> <br>
-
-        <label for="apellido2">Apellido 2:</label> 
-        <input type="text" name="apellido2"> <br>
-
-        <label for="email">Email:</label> 
-        <input type="mail" name="email">* Obligatorio <br>
-
-        <fieldset>
-            <legend>Sexo</legend>
-            <input type="radio" value="mujer" name="sexo" /> Mujer </br>
-            <input type="radio" value="hombre" name="sexo" /> Hombre  </br>
-            *Obligatorio
-        </fieldset>
-
-        <br>
-
-        <input type="submit" value="enviar">
-        <input type="reset" value="borrar">
-    </form> 
+<html>
+ <head>
+    <title>Valores Bursatiles</title>
+  </head>
+   <body>
+   <!-- <?php 
+       //include('funcionesBasicas.php');
+	   //$fichero="ibex35.txt";
+	   //$Nombres=nombres($fichero);
+	   //foreach($Nombres as $indice => $valor){
+	   //	echo $valor;
+	   //}  
+	 ?> -->
+	<form action="bolsa7.php" method="post" >
+						<h1><b>Valores Bursatiles</b></h1>
+						<div>
+							<label for="caja1">Primer valor bursatil</label>
+							 <select name="caja1">
+								<option value="acciona">Acciona</option>
+								<option value="BBVA">BBVA</option>
+								<option value="ENDESA">Endesa</option>
+								<option value="IBERDROLA">Iberdrola</option>
+								<option value="mapfre">Mapfre</option>
+							 </select><br>
+							<label for="Caja2">Segundo valor bursatil</label>
+							<select name="caja2">
+								<option value="acciona">Acciona</option>
+								<option value="BBVA">BBVA</option>
+								<option value="ENDESA">Endesa</option>
+								<option value="IBERDROLA">Iberdrola</option>
+								<option value="mapfre">Mapfre</option>
+							 </select><br>
+						</div>
+						<br />
+						<input type="submit" value="Enviar" />
+						<input type="reset" value="Borrar" />
+	</form>
+	 </body>
+</html>

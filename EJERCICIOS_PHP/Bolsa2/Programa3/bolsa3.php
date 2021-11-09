@@ -1,35 +1,47 @@
 <?php
-var_dump($_POST);
-$valor1;
-$resultado;
-
+include('funcionesBasicas.php');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  $valor1 = limpieza($_POST["caja1"]);
+  $valor1 = limpieza2($_POST["caja1"]);
+  $valor2 = limpieza2($_POST["caja2"]);
 }
 
-function limpieza($datos) {
-  $datos = trim($datos);
-  $datos = stripslashes($datos);
-  $datos = htmlspecialchars($datos);
-  return $datos;
-}
+$fichero="ibex35.txt";
 
+$nombresValor=nombres($fichero);
+$Ultimo=ultimo($fichero);
+$max=maximo($fichero);
+$min=minimo($fichero);
 
-echo "<h1><b>Conversor Binario</b></h1>";
-	echo "<div>
-			<label for='Caja1'>Numero Decimal</label>
-			<input type='text' name='caja1' value='$valor1' /> <br />
-		</div>
-		<br />
-		<br />";
+$nombre1=$valor1;
+$nombre2=$valor2;
 
-	$resultado=decbin($valor1);
-	echo "<div>
-			<label for='Caja1'>Numero Binario</label>
-			<input type='text' name='binario' value='$resultado'/> <br />
-		</div>";
+echo "<table border=1px>";
+echo "<tr>";
+echo "<td>VALOR</td>";
+echo "<td>ULTIMO</td>";
+echo "<td>MAX</td>";
+echo "<td>MIN</td>";
+echo "</tr>";
 
-
+if(in_array("$nombre1",$nombresValor)){
+		$clave = array_search("$nombre1", $nombresValor); 
+	echo "<tr>";
+		echo "<td>".$nombresValor[$clave]."</td>";
+		echo "<td>".$Ultimo[$clave]."</td>";
+		echo "<td>".$max[$clave]."</td>";
+		echo "<td>".$min[$clave]."</td>";
+	echo "</tr>";
+}	
+if(in_array("$nombre2",$nombresValor)){
+		$clave = array_search("$nombre2", $nombresValor); 
+	echo "<tr>";
+		echo "<td>".$nombresValor[$clave]."</td>";
+		echo "<td>".$Ultimo[$clave]."</td>";
+		echo "<td>".$max[$clave]."</td>";
+		echo "<td>".$min[$clave]."</td>";
+	echo "</tr>";
+}	
+echo "</table>";
 
 
 /* if ($_SERVER["REQUEST_METHOD"] == "POST") {

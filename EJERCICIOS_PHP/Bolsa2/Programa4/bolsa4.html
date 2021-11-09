@@ -1,20 +1,40 @@
-<form action="calculadora.php" method="post" >
-						<h1><b>Conversor Binario</b></h1>
+<!DOCTYPE html>
+<html>
+ <head>
+    <title>Valores Bursatiles</title>
+  </head>
+   <body>
+   <!-- <?php 
+       //include('funcionesBasicas.php');
+	   //$fichero="ibex35.txt";
+	   //$Nombres=nombres($fichero);
+	   //foreach($Nombres as $indice => $valor){
+	   //	echo $valor;
+	   //}  
+	 ?> -->
+	<form action="bolsa4.php" method="post" >
+						<h1><b>Valores Bursatiles</b></h1>
 						<div>
-							<label for="Caja1">Numero Decimal</label>
-							<input type="text" name="caja1" /> <br />
-						</div>
-						<br />
-						<div>
-							<fieldset>
-								<legend>Convertir a:</legend>
-								<input type="radio" value="Binario" name="operando" /> Binario </br>
-								<input type="radio" value="Octal" name="operando" /> Octal </br>
-								<input type="radio" value="Hexadecimal" name="operando" /> Hexadecimal </br>
-								<input type="radio" value="Todos" name="operando" /> Todos </br>
-							</fieldset>
+							<label for="caja1">Primer valor bursatil</label>
+							 <select name="caja1">
+								<option value="acciona">Acciona</option>
+								<option value="BBVA">BBVA</option>
+								<option value="ENDESA">Endesa</option>
+								<option value="IBERDROLA">Iberdrola</option>
+								<option value="mapfre">Mapfre</option>
+							 </select><br>
+							<label for="Caja2">Segundo valor bursatil</label>
+							<select name="caja2">
+								<option value="acciona">Acciona</option>
+								<option value="BBVA">BBVA</option>
+								<option value="ENDESA">Endesa</option>
+								<option value="IBERDROLA">Iberdrola</option>
+								<option value="mapfre">Mapfre</option>
+							 </select><br>
 						</div>
 						<br />
 						<input type="submit" value="Enviar" />
 						<input type="reset" value="Borrar" />
-</form>
+	</form>
+	 </body>
+</html>
