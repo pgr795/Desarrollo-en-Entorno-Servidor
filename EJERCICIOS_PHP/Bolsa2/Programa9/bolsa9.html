@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+ <head>
+    <title>Valores Bursatiles</title>
+  </head>
+   <body>
+   <!-- <?php 
+       //include('funcionesBasicas.php');
+	   //$fichero="ibex35.txt";
+	   //$Nombres=nombres($fichero);
+	   //foreach($Nombres as $indice => $valor){
+	   //	echo $valor;
+	   //}  
+	 ?> -->
+	<form action="bolsa9.php" method="post" >
+						<h1><b>Valores Bursatiles</b></h1>
+						<div>
+							<label for="Caja1">Mostrar:</label>
+							<select name="caja1">
+								<option value="TotalVolumen">Total Volumen</option>
+								<option value="TotalCapitalizacion">Total Capitalizacion</option>
+							 </select><br>
+						</div>
+						<br />
+						<input type="submit" value="Enviar" />
+						<input type="reset" value="Borrar" />
+	</form>
+	 </body>
+</html>
