@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $fichero="ibex35.txt";
 
 $nombresValor=nombres($fichero);
-$var1=varacion1($fichero);
+$var1=variacion1($fichero);
 $acum=accAño($fichero);
 $nombre1=$valor1;
 $nombre2=$valor2;

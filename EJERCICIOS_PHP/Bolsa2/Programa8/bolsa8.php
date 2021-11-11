@@ -10,8 +10,8 @@ $fichero="ibex35.txt";
 
 $nombresValor=nombres($fichero);
 $ultimo=ultimo($fichero);
-$var1=varacion1($fichero);
-$var2=varacion2($fichero);
+$var1=variacion1($fichero);
+$var2=variacion2($fichero);
 $acAnual= accAño($fichero);
 $max=maximo($fichero);
 $min=minimo($fichero);

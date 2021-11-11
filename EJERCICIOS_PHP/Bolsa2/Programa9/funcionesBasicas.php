@@ -41,31 +41,31 @@ function ultimo($fichero){
 	return $Ultimo;
 }
 
-function varacion1($fichero){
-	$Varacion1=array();
+function variacion1($fichero){
+	$Variacion1=array();
 	$archivo=file($fichero);
 		foreach($archivo as $indice => $valor) {
 		if($indice!=0){
 			$aux=$valor." ";
-			$Varacion1[$indice]=substr($aux,32,5);
-			$Varacion1[$indice]=trim($Varacion1[$indice]," ");
+			$Variacion1[$indice]=substr($aux,32,5);
+			$Variacion1[$indice]=trim($Variacion1[$indice]," ");
 		}	
 	}
-	return $Varacion1;
+	return $Variacion1;
 }
 
 
-function varacion2($fichero){
-	$Varacion2=array();
+function variacion2($fichero){
+	$Variacion2=array();
 	$archivo=file($fichero);
 		foreach($archivo as $indice => $valor) {
 		if($indice!=0){
 			$aux=$valor." ";
-			$Varacion2[$indice]=substr($aux,40,5);
-			$Varacion2[$indice]=trim($Varacion2[$indice]," ");
+			$Variacion2[$indice]=substr($aux,40,5);
+			$Variacion2[$indice]=trim($Variacion2[$indice]," ");
 		}	
 	}
-	return $Varacion2;
+	return $Variacion2;
 }
 
 function accAño($fichero){
