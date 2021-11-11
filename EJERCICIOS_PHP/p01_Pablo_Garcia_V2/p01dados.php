@@ -44,7 +44,7 @@ $partida=array("$jugador1" => $tiradaJug1=jugada($jugador1,$numDados),
 			   "$jugador4" => $tiradaJug4=jugada($jugador4,$numDados)
 			   );
 
-
+if($numDados<11){
 echo "<table border='1px'>";
 echo "<tr>";
 echo "<td width=90px height=90px><h2>$jugador1</h2></td>";
@@ -66,7 +66,9 @@ echo "</table>";
 
 $resultados=resultado($tiradaJug1,$tiradaJug2,$tiradaJug3,$tiradaJug4,$numDados);
 
+}
 
+$resultados=0; 
 if($resultados==0){
 	echo "<br>";
 	echo "El numero de dados debe ser entre 1 y 10";
@@ -78,8 +80,8 @@ else{
 	echo "</div>";
 }
 
-var_dump($partida);
-var_dump($resultados);
+/* var_dump($partida);
+var_dump($resultados); */
 
 
 
