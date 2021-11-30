@@ -26,6 +26,15 @@
 		return $conn;
 	}
 	
+	function mostrarSelect(){
+		 $mysqli=crear_conexion1();
+		 $query = $mysqli -> query ("SELECT nombre_d FROM departamento");
+          while ($valores = mysqli_fetch_array($query)) {
+            echo '<option value="'.$valores[nombre_d].'">'.$valores[nombre_d].'</option>';
+          }
+	}
+	
+	
 	function alta_empleado($conexion,$dni,$nombre,$fecha,$departamento){
 		$conex=$conexion;
 			$sql = "INSERT INTO empleado VALUES ('$dni','$nombre','$fecha','$departamento')";
