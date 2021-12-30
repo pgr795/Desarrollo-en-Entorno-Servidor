@@ -14,7 +14,6 @@
 		try {
 		$conexion = new PDO("mysql:host=$servername;dbname=comprasweb",$username,$password);
 		$conexion->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-		echo "Conectado";
 		return $conexion;
 		}
 		catch(PDOException $e){
@@ -22,16 +21,12 @@
 		}
 		
 	}
+	
+// -----------------------------------------------------------------------------------------------------------------	
 
+	//GENERAR CODIGOS DE CAMPOS
 	function generarCodigo(){
 		try {
-			$auxCod="C-000";
-			$codigo=substr($auxCod,2,3);
-			$num=$codigo;
-			$num+=1;
-			$auxCodigoDepartamento="C-".str_pad($num,3,"0",STR_PAD_LEFT);
-			$CodigoDepartamento="";
-			
 			$conexion=crear_conexion();
 			$stmt = $conexion -> prepare("SELECT MAX(ID_CATEGORIA) as ultimoCodigo FROM categoria");
 			$stmt->execute();
@@ -43,7 +38,7 @@
 			var_dump($ultimoCodigo);
 		
 			if(empty($ultimoCodigo)){
-				$CodigoDepartamento=$auxCodigoDepartamento;
+				$CodigoDepartamento="C-000";
 			}
 			else{
 				$codigo=substr($ultimoCodigo,2,3);
@@ -67,13 +62,6 @@
 
 	function generarCodigo2(){
 		try {
-			$auxCod="P0000";
-			$codigo=substr($auxCod,1,4);
-			$num=$codigo;
-			$num+=1;
-			$auxCodigoDepartamento="P".str_pad($num,4,"0",STR_PAD_LEFT);
-			$CodigoDepartamento="";
-			
 			$conexion=crear_conexion();
 			$stmt = $conexion -> prepare("SELECT MAX(ID_PRODUCTO) as ultimoCodigo FROM producto");
 			$stmt->execute();
@@ -85,7 +73,7 @@
 			var_dump($ultimoCodigo);
 		
 			if(empty($ultimoCodigo)){
-				$CodigoDepartamento=$auxCodigoDepartamento;
+				$CodigoDepartamento="P0000";
 			}
 			else{
 				$codigo=substr($ultimoCodigo,1,4);
@@ -109,12 +97,6 @@
 
 	function generarCodigo3(){
 		try {
-			$auxCod="0";
-			$num=$auxCod;
-			$num+=10;
-			$auxCodigoDepartamento=$num;
-			$CodigoDepartamento="";
-			
 			$conexion=crear_conexion();
 			$stmt = $conexion -> prepare("SELECT MAX(NUM_ALMACEN) as ultimoCodigo FROM almacen");
 			$stmt->execute();
@@ -123,22 +105,18 @@
 			foreach($stmt->fetchAll() as $row){
 				$ultimoCodigo=$row['ultimoCodigo'];
 			}
-			var_dump($ultimoCodigo);
 		
 			if(empty($ultimoCodigo)){
 				$CodigoDepartamento=$auxCodigoDepartamento;
 			}
 			else{
-				$codigo=$ultimoCodigo;
+				$codigo="0";
 				$num=$codigo;
 				$num+=10;
 				$CodigoDepartamento=$num;
 			}
-			 var_dump($CodigoDepartamento);
 			return $CodigoDepartamento;
-			
 		}
-		
 		catch(PDOException $e) {
 			echo "Error: ". $e->getMessage();
 		}
@@ -146,7 +124,10 @@
 		$conexion = null;
 		
 	}
+	
+// -----------------------------------------------------------------------------------------------------------------	
 
+// MOSTRAR SELECT
 	function mostrarSelect(){
 		try {
 			$conexion=crear_conexion();
@@ -166,6 +147,69 @@
 		$conexion = null;
 	}
 	
+	
+	function mostrarSelect2(){
+		try {
+			$conexion=crear_conexion();
+			$stmt = $conexion->prepare("SELECT id_producto,nombre FROM producto");
+			$stmt->execute();
+			$resultado = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+			echo "<select name='producto'>";
+			foreach($stmt->fetchAll() as $consulta){
+			  echo '<option value="'.$consulta["id_producto"].'">'.$consulta["nombre"].'</option>';
+	
+			}
+			echo "</select>";
+		}
+		catch(PDOException $e){
+			echo "Error:". $e->getMessage();
+		}
+		$conexion = null;
+	}
+	
+	function mostrarSelect3(){
+		try {
+			$conexion=crear_conexion();
+			$stmt = $conexion->prepare("SELECT num_almacen FROM almacen");
+			$stmt->execute();
+			$resultado = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+			echo "<select name='almacen'>";
+			foreach($stmt->fetchAll() as $consulta){
+			  echo '<option value="'.$consulta["num_almacen"].'">'.$consulta["num_almacen"].'</option>';
+	
+			}
+			echo "</select>";
+		}
+		catch(PDOException $e){
+			echo "Error:". $e->getMessage();
+		}
+		$conexion = null;
+	}
+	
+	function mostrarSelect4(){
+		try {
+			$conexion=crear_conexion();
+			$stmt = $conexion->prepare("SELECT nif,nombre FROM cliente");
+			$stmt->execute();
+			$resultado = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+			echo "<select name='cliente'>";
+				
+				foreach($stmt->fetchAll() as $consulta){
+				  echo '<option value="'.$consulta["nif"].'">'.$consulta["nombre"].'</option>';
+				}
+				
+			echo "</select>";
+		}
+		catch(PDOException $e){
+			echo "Error:". $e->getMessage();
+		}
+		$conexion = null;
+	}
+
+// -----------------------------------------------------------------------------------------------------------------	
+
+	//INSERTAR 
+
 	function insertar_categoria($conexion,$categoria){
 		try {
 		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -176,11 +220,32 @@
 		$stmt = $conexion->prepare("INSERT INTO categoria (id_categoria,nombre)
 		VALUES ('$codigo', '$categoria')");
 		$stmt->execute();
+		
+		var_dump($stmt);
+		
 		echo "<br>";
 		echo "Categoria añadida";
 		}
 		catch(PDOException $e) {
 			echo "Error al insertar Categoria: ". $e->getMessage();
+		}
+		$conexion = null;	
+	}
+	
+	
+	function insertar_cliente($conexion,$NIF,$Nombre,$Apellido,$CP,$Direccion,$Ciudad){
+		try {
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		$stmt = $conexion->prepare("INSERT INTO cliente (nif,nombre,apellido,cp,direccion,ciudad)
+		VALUES ('$NIF','$Nombre','$Apellido','$CP','$Direccion','$Ciudad')");
+		$stmt->execute();
+				
+		echo "<br>";
+		echo "Cliente añadido";
+		}
+		catch(PDOException $e) {
+			echo "Error al insertar Cliente: ". $e->getMessage();
 		}
 		$conexion = null;	
 	}
@@ -196,10 +261,10 @@
 		VALUES ('$codigo','$producto','$precio','$categoria')");
 		$stmt->execute();
 		echo "<br>";
-		echo "Categoria añadida";
+		echo "Producto añadida";
 		}
 		catch(PDOException $e) {
-			echo "Error al insertar Categoria: ". $e->getMessage();
+			echo "Error al insertar Producto: ". $e->getMessage();
 		}
 		$conexion = null;	
 	}
@@ -215,10 +280,87 @@
 		VALUES ('$codigo','$localidad')");
 		$stmt->execute();
 		echo "<br>";
-		echo "Categoria añadida";
+		echo "Almacen añadido";
 		}
 		catch(PDOException $e) {
-			echo "Error al insertar Categoria: ". $e->getMessage();
+			echo "Error al insertar Almacen: ". $e->getMessage();
+		}
+		$conexion = null;	
+	}
+	
+	function aprovisionarProductos($conexion,$cantidad,$producto,$numAlmacen){
+		try {
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		
+		$codigo=generarCodigo3();
+
+		$stmt = $conexion->prepare("INSERT INTO almacena (num_almacen,id_producto,cantidad)
+		VALUES ('$numAlmacen','$producto','$cantidad')");
+		$stmt->execute();
+		echo "<br>";
+		echo "Cantidad Almacenada";
+		}
+		catch(PDOException $e) {
+			echo "Error al insertar Cantidad: ". $e->getMessage();
+		}
+		$conexion = null;	
+	}
+
+	
+// -----------------------------------------------------------------------------------------------------------------	
+	
+	// CONSULTAS
+	
+	function consultarStock($conexion,$producto){
+		try {
+			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+			$stmt = $conexion->prepare("SELECT cantidad FROM almacena WHERE id_producto='$producto'");
+			$stmt->execute();
+		
+			foreach($stmt->fetchAll() as $row){
+				echo "<br>";
+				echo "Cod_Producto: ".$producto." Cantidad: ".$row["cantidad"]."<br>";
+			}
+		}
+		catch(PDOException $e) {
+			echo "Error al insertar cantidad: ". $e->getMessage();
+		}
+		$conexion = null;	
+	}
+	
+	function consultarProductos($conexion,$almacen){
+		try {
+			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+			$stmt = $conexion->prepare("select id_producto,cantidad from almacena almacen where num_almacen='$almacen'");
+			$stmt->execute();
+		
+			foreach($stmt->fetchAll() as $consulta){
+				echo "<br>";
+				echo "<b>Cod_Producto:</b> ".$consulta["id_producto"]."<br>"." <b>Cantidad:</b> ".$consulta["cantidad"]."<br>";
+			}
+		}
+		catch(PDOException $e) {
+			echo "Error al insertar cantidad: ". $e->getMessage();
+		}
+		$conexion = null;	
+	}
+	
+	function consultarCompras($conexion,$almacen){
+		try {
+			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+			$stmt = $conexion->prepare("select id_producto,cantidad from almacena almacen where num_almacen='$almacen'");
+			$stmt->execute();
+		
+			foreach($stmt->fetchAll() as $consulta){
+				echo "<br>";
+				echo "<b>Cod_Producto:</b> ".$consulta["id_producto"]."<br>"." <b>Cantidad:</b> ".$consulta["cantidad"]."<br>";
+			}
+		}
+		catch(PDOException $e) {
+			echo "Error al insertar cantidad: ". $e->getMessage();
 		}
 		$conexion = null;	
 	}
