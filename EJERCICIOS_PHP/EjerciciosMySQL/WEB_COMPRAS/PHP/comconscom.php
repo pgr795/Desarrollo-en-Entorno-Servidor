@@ -5,35 +5,73 @@ include('../Funciones/funciones.php');
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Alta Empleado</title>
+	<title>Consulta de Compras</title>
 </head>
 <body>
-	<h1>Alta Empleado</h1>
+	<h1>Consulta de Compras</h1>
 	<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-		<p>DNI<input type='text' name='dni' size=15></p><br>
-		<p>Nombre <input type='text' name='nombre' size=15></p><br>
-		<p>Fecha Nacimiento <input type='text' name='fecha' size=15></p><br>
-		<p>Departamento <input type='text' name='departamento' size=15></p><br>
-		   <input type="submit" name="submit" value="Alta"/>
+	<h2>Alta de Cliente</h2>
+		<form>
+			<p>NIF: <input type='text' name='nif' size=15></p>
+			<p>Nombre: <input type='text' name='nombre' size=15></p>
+			<p>Apellido: <input type='text' name='apellido' size=15></p>
+			<p>CP: <input type='text' name='cp' size=15></p>
+			<p>Direccion: <input type='text' name='direccion' size=15></p>
+			<p>Ciudad: <input type='text' name='ciudad' size=15></p><br>
+			<input type="submit" name="submit" value="Alta de Cliente"/>
+		</form>
+	<h2>Alta Compras</h2>
+		<form>
+			<p>NIF</p>
+			<?php
+				mostrarSelect4();
+			?>
+			<p>Productos</p>
+			<?php
+				mostrarSelect2();
+			?>
+			<p>Fecha_Compra(Automatico):</p> <!-- <input type='text' name='fechaIni' size=15> -->
+			<p>Unidades: <input type='text' name='Unidades' size=15></p>
+			<p><input type="submit" name="submit" value="Alta Compra"/></p>
+		</form>
+	<h2>Consultar Compras</h2>
+		<form>
+			<p>NIF</p>
+			<?php
+				mostrarSelect4();
+			?>
+			<p>Fecha desde: <input type='text' name='fechaIni' size=15></p>
+			<p>Fecha hasta: <input type='text' name='fechaFin' size=15></p>
+			<p><input type="submit" name="submit" value="Consulta Comprar"/></p>
+		</form>
 	</form>
 </body>
 </html>
 <?php
-
-	/* var_dump($_POST); */
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	$valor1 = limpieza($_POST["dni"]);
-	$valor2 = limpieza($_POST["nombre"]);
-	$valor3 = limpieza($_POST["fecha"]);
-	$valor4 = limpieza($_POST["departamento"]);
-
-	$dni=$valor1;
-	$nombre=$valor2;
-	$fecha=$valor3;
-	$departamento=$valor4;
-	$conexion=crear_conexion1();
-
-	alta_empleado($conexion,$dni,$nombre,$fecha,$departamento);
-	
-}
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		$valor1 = limpieza($_POST["nif"]);
+		$valor2 = limpieza($_POST["nombre"]);
+		$valor3 = limpieza($_POST["apellido"]);
+		$valor4 = limpieza($_POST["cp"]);
+		$valor5 = limpieza($_POST["direccion"]);
+		$valor6 = limpieza($_POST["ciudad"]);
+		$valor7 = limpieza($_POST["cliente"]);
+		$valor8 = limpieza($_POST["producto"]);
+		
+		$valor9 = limpieza($_POST["submit"]);
+		
+			
+			$NIF=$valor1;
+			$Nombre=$valor2;
+			$Apellido=$valor3;
+			$CP=$valor4;
+			$Direccion=$valor5;
+			$Ciudad=$valor6;
+			
+			$cliente=$valor7;
+			$producto=$valor8;
+			
+			$conexion=crear_conexion();
+			insertar_cliente($conexion,$NIF,$Nombre,$Apellido,$CP,$Direccion,$Ciudad);
+	}
 ?>
