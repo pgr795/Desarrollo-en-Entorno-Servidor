@@ -19,8 +19,30 @@
 		catch(PDOException $e){
 			echo "Conexion fallida: " . $e->getMessage();
 		}
-		
 	}
+	
+//------------------------------------------------------------------------------------------------------------------
+	//Validaciones
+	function validacion($nif){
+		$numero=substr($nif,0,7);
+		$letra=substr($nif,-1);
+		$correcto=true;
+		if(strlen($nif)==8 && $nif!=""){
+			for($i=0;$i<strlen($numero);$i++){
+				if(!is_numeric(substr($numero,$i,1))){
+					$correcto=false;
+				}
+			}
+			if(!ctype_alpha($letra)){
+				$correcto=false;
+			}
+			else{
+				$correcto=false;
+			}
+			return $correcto;
+		}
+	}
+	
 	
 // -----------------------------------------------------------------------------------------------------------------	
 
@@ -208,23 +230,23 @@
 
 // -----------------------------------------------------------------------------------------------------------------	
 
-	//INSERTAR 
+	//INSERTAR NUEVO CAMPOS
 
 	function insertar_categoria($conexion,$categoria){
 		try {
-		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		
-		$codigo=generarCodigo();
-		var_dump($codigo);
+			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			$codigo=generarCodigo();
+			var_dump($codigo);
 
-		$stmt = $conexion->prepare("INSERT INTO categoria (id_categoria,nombre)
-		VALUES ('$codigo', '$categoria')");
-		$stmt->execute();
-		
-		var_dump($stmt);
-		
-		echo "<br>";
-		echo "Categoria añadida";
+			$stmt = $conexion->prepare("INSERT INTO categoria (id_categoria,nombre)
+			VALUES ('$codigo', '$categoria')");
+			$stmt->execute();
+			
+			var_dump($stmt);
+			
+			echo "<br>";
+			echo "Categoria añadida";
 		}
 		catch(PDOException $e) {
 			echo "Error al insertar Categoria: ". $e->getMessage();
@@ -235,14 +257,23 @@
 	
 	function insertar_cliente($conexion,$NIF,$Nombre,$Apellido,$CP,$Direccion,$Ciudad){
 		try {
-		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-		$stmt = $conexion->prepare("INSERT INTO cliente (nif,nombre,apellido,cp,direccion,ciudad)
-		VALUES ('$NIF','$Nombre','$Apellido','$CP','$Direccion','$Ciudad')");
-		$stmt->execute();
-				
-		echo "<br>";
-		echo "Cliente añadido";
+			if(empty($NIF)){
+				$nifErr = "<p>NIF ES REQUERIDO</p>";
+				echo $nifErr;
+			} 
+			else{
+				if(!validacion($NIF)){
+					$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+					$stmt = $conexion->prepare("INSERT INTO cliente (nif,nombre,apellido,cp,direccion,ciudad)
+					VALUES ('$NIF','$Nombre','$Apellido','$CP','$Direccion','$Ciudad')");
+					$stmt->execute();		
+					echo "<br>";
+					echo "<p>Cliente añadido</p>";
+				}
+				else{
+					echo "<p>FORMATO DE NIF INCORRECTO</p>";
+				}
+			}
 		}
 		catch(PDOException $e) {
 			echo "Error al insertar Cliente: ". $e->getMessage();
@@ -252,16 +283,16 @@
 
 	function insertar_Producto($conexion,$producto,$precio,$categoria){
 		try {
-		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		
-		$codigo=generarCodigo2();
-		var_dump($codigo);
+			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			$codigo=generarCodigo2();
+			var_dump($codigo);
 
-		$stmt = $conexion->prepare("INSERT INTO producto (id_producto,nombre,precio,id_categoria)
-		VALUES ('$codigo','$producto','$precio','$categoria')");
-		$stmt->execute();
-		echo "<br>";
-		echo "Producto añadida";
+			$stmt = $conexion->prepare("INSERT INTO producto (id_producto,nombre,precio,id_categoria)
+			VALUES ('$codigo','$producto','$precio','$categoria')");
+			$stmt->execute();
+			echo "<br>";
+			echo "Producto añadida";
 		}
 		catch(PDOException $e) {
 			echo "Error al insertar Producto: ". $e->getMessage();
@@ -271,16 +302,16 @@
 
 	function alta_almacen($conexion,$localidad){
 		try {
-		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		
-		$codigo=generarCodigo3();
-		var_dump($codigo);
+			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			$codigo=generarCodigo3();
+			var_dump($codigo);
 
-		$stmt = $conexion->prepare("INSERT INTO almacen (num_almacen,localidad)
-		VALUES ('$codigo','$localidad')");
-		$stmt->execute();
-		echo "<br>";
-		echo "Almacen añadido";
+			$stmt = $conexion->prepare("INSERT INTO almacen (num_almacen,localidad)
+			VALUES ('$codigo','$localidad')");
+			$stmt->execute();
+			echo "<br>";
+			echo "Almacen añadido";
 		}
 		catch(PDOException $e) {
 			echo "Error al insertar Almacen: ". $e->getMessage();
@@ -290,26 +321,41 @@
 	
 	function aprovisionarProductos($conexion,$cantidad,$producto,$numAlmacen){
 		try {
-		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		
-		$codigo=generarCodigo3();
+			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			
+			$codigo=generarCodigo3();
 
-		$stmt = $conexion->prepare("INSERT INTO almacena (num_almacen,id_producto,cantidad)
-		VALUES ('$numAlmacen','$producto','$cantidad')");
-		$stmt->execute();
-		echo "<br>";
-		echo "Cantidad Almacenada";
+			$stmt = $conexion->prepare("INSERT INTO almacena (num_almacen,id_producto,cantidad)
+			VALUES ('$numAlmacen','$producto','$cantidad')");
+			$stmt->execute();
+			echo "<br>";
+			echo "Cantidad Almacenada";
 		}
 		catch(PDOException $e) {
 			echo "Error al insertar Cantidad: ". $e->getMessage();
 		}
 		$conexion = null;	
 	}
-
+	
+	function compraDeProductos($conexion,$cliente,$producto,$fechaCompra,$unidades){
+		try {
+			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$stmt = $conexion->prepare("INSERT INTO compra (nif,id_producto,fecha_compra,unidades)
+			VALUES ('$cliente','$producto','$fechaCompra','$unidades')");
+			$stmt->execute();
+			echo "Compra Realizada";
+			
+		}
+		catch(PDOException $e) {
+			echo "Error al comprar el Producto: ". $e->getMessage();
+		}
+		$conexion = null;
+	}
+	
 	
 // -----------------------------------------------------------------------------------------------------------------	
 	
-	// CONSULTAS
+	// CONSULTAS DE CAMPOS
 	
 	function consultarStock($conexion,$producto){
 		try {
@@ -364,5 +410,64 @@
 		}
 		$conexion = null;	
 	}
+	
+	function disponibilidadAlmacen($conexion,$producto){
+		try {
+			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+			$stock="";
+			
+			$stmt = $conexion->prepare("select sum(cantidad) as stock from almacena where id_producto='$producto'");
+			$stmt->execute();
+		
+			foreach($stmt->fetchAll() as $consulta){
+				$stock=$consulta["stock"];
+			}
+			
+			return $stock;
+		}
+		catch(PDOException $e) {
+			echo "Error: ". $e->getMessage();
+		}
+		$conexion = null;	
+	}
+	
+	function consultarCompras2($conexion,$cliente,$fechaIni,$fechaFin){
+		$total=0;
+		
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$stmt = $conexion->prepare("SELECT CLIENTE.NOMBRE AS CLIENTE,PRODUCTO.NOMBRE AS PRODUCTO,PRODUCTO.PRECIO,COMPRA.FECHA_COMPRA FROM CLIENTE,PRODUCTO,COMPRA
+        WHERE CLIENTE.NIF = COMPRA.NIF AND PRODUCTO.ID_PRODUCTO = COMPRA.ID_PRODUCTO
+        AND CLIENTE.NIF = '$cliente' AND COMPRA.FECHA_COMPRA >= '$fechaIni' AND COMPRA.FECHA_COMPRA <= '$fechaFin'");
+		$stmt->execute();
+		
+		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);//Guardo los resultados
+        foreach($stmt->fetchAll() as $row) {
+			echo "Cliente: ".$row['CLIENTE']." || Producto: ".$row['PRODUCTO']." || Precio: ".$row['PRECIO']."€ ||FechaCompra ".$row['FECHA_COMPRA'];
+			$total += $row['PRECIO'];
+			echo "<br>";
+       }
+	   echo "Total: ".$total."€";
+    }
+		
+	
+	
+// -----------------------------------------------------------------------------------------------------------------	
+	
+	// ACTUALIZAR CAMPOS
+	
+	function actualizarAlmacen($conexion,$producto,$unidades){
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$stmt = $conexion->prepare("SELECT ALMACENA.CANTIDAD AS STOCK FROM PRODUCTO,ALMACEN,ALMACENA
+                              WHERE PRODUCTO.ID_PRODUCTO = ALMACENA.ID_PRODUCTO AND ALMACEN.NUM_ALMACEN = ALMACENA.NUM_ALMACEN
+                              AND PRODUCTO.ID_PRODUCTO = '$producto'");
+		$stmt->execute();
+		
+		foreach($stmt->fetchAll() as $consulta){
+				$stock=$consulta["STOCK"];
+		}
+	}
+	
+	
 ?>
 
