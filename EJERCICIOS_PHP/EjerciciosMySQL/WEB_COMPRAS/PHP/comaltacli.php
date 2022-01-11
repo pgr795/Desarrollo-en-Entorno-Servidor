@@ -5,34 +5,41 @@ include('../Funciones/funciones.php');
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Alta Empleado</title>
+	<title>Alta de Cliente</title>
 </head>
 <body>
-	<h1>Alta Empleado</h1>
-	<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-		<p>DNI<input type='text' name='dni' size=15></p><br>
-		<p>Nombre <input type='text' name='nombre' size=15></p><br>
-		<p>Fecha Nacimiento <input type='text' name='fecha' size=15></p><br>
-		<p>Departamento <input type='text' name='departamento' size=15></p><br>
-		   <input type="submit" name="submit" value="Alta"/>
-	</form>
+	<h2>Alta de Cliente</h2>
+		<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+			<p>NIF: <input type='text' name='nif' size=15></p>
+			<p>Nombre: <input type='text' name='nombre' size=15></p>
+			<p>Apellido: <input type='text' name='apellido' size=15></p>
+			<p>CP: <input type='text' name='cp' size=15></p>
+			<p>Direccion: <input type='text' name='direccion' size=15></p>
+			<p>Ciudad: <input type='text' name='ciudad' size=15></p><br>
+			<input type="submit" name="submit" value="Alta de Cliente"/>
+		</form>
 </body>
 </html>
 <?php
-	/* var_dump($_POST); */
+	var_dump($_POST);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	$valor1 = limpieza($_POST["dni"]);
-	$valor2 = limpieza($_POST["nombre"]);
-	$valor3 = limpieza($_POST["fecha"]);
-	$valor4 = limpieza($_POST["departamento"]);
-
-	$dni=$valor1;
-	$nombre=$valor2;
-	$fecha=$valor3;
-	$departamento=$valor4;
-	$conexion=crear_conexion1();
-
-	alta_empleado($conexion,$dni,$nombre,$fecha,$departamento);
+		$valor1 = limpieza($_POST["nif"]);
+		$valor2 = limpieza($_POST["nombre"]);
+		$valor3 = limpieza($_POST["apellido"]);
+		$valor4 = limpieza($_POST["cp"]);
+		$valor5 = limpieza($_POST["direccion"]);
+		$valor6 = limpieza($_POST["ciudad"]);
+		
+		$NIF=$valor1;
+		$Nombre=$valor2;
+		$Apellido=$valor3;
+		$CP=$valor4;
+		$Direccion=$valor5;
+		$Ciudad=$valor6;
+		$conexion=crear_conexion();
+		
+		insertar_cliente($conexion,$NIF,$Nombre,$Apellido,$CP,$Direccion,$Ciudad);
+	}
 	
-}
+	
 ?>
