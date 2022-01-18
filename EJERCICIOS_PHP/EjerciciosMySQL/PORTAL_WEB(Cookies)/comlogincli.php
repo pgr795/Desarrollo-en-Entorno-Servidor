@@ -32,7 +32,9 @@
 				header("location: comprocli.php");
 				
 			}
-			else { 
+			else {
+				setcookie('nif', "", time() - 3600);
+				setcookie('nombre', "", time() - 3600);
 				$error = "Usuario o password incorrectos !!!";
 				echo $error;
 			}

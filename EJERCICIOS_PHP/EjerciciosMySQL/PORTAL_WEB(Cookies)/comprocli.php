@@ -6,6 +6,8 @@
 	$_COOKIE['nif'];
 	$_COOKIE['nombre'];
 	if(!isset($_COOKIE['nif'],$_COOKIE['nombre'])) {
+		setcookie('nif', "", time() - 3600);
+		setcookie('nombre', "", time() - 3600);
 		header("location: comlogincli.php");
 	}
     	
@@ -43,9 +45,9 @@
 		}
 		else if($valor3){
 			// remove all session variables
-			session_unset();
+				setcookie('nif', "", time() - 3600);
+				setcookie('nombre', "", time() - 3600);
 			// destroy the session
-			session_destroy();
 			header("location: comlogincli.php");
 		}
 	}

@@ -4,6 +4,8 @@
 	$_COOKIE['nif'];
 	$_COOKIE['nombre'];
 	if(!isset($_COOKIE['nif'],$_COOKIE['nombre'])) {
+		setcookie('nif', "", time() - 3600);
+		setcookie('nombre', "", time() - 3600);
 		header("location: comlogincli.php");
 	}
 ?>
