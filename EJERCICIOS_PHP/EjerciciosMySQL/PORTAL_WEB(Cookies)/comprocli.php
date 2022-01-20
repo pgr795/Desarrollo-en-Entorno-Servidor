@@ -45,8 +45,8 @@
 		}
 		else if($valor3){
 			// remove all session variables
-				setcookie('nif', "", time() - 3600);
-				setcookie('nombre', "", time() - 3600);
+				setcookie('nif', "", time() - (86400 * 30),'/');
+				setcookie('nombre', "", time() - (86400 * 30),'/');
 			// destroy the session
 			header("location: comlogincli.php");
 		}

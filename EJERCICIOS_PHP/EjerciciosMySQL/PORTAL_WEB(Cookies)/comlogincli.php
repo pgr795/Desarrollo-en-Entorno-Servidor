@@ -2,6 +2,7 @@
 <?php
 	include('funciones.php');
 	var_dump($_POST);
+
 	if($_SERVER["REQUEST_METHOD"] == "POST") {
 		try{
 			$usuario = limpieza($_POST["usuario"]);
@@ -33,8 +34,8 @@
 				
 			}
 			else {
-				setcookie('nif', "", time() - 3600);
-				setcookie('nombre', "", time() - 3600);
+				setcookie('nif', "", time() - (86400 * 30),"/");
+				setcookie('nombre', "", time() - (86400 * 30),"/");
 				$error = "Usuario o password incorrectos !!!";
 				echo $error;
 			}
