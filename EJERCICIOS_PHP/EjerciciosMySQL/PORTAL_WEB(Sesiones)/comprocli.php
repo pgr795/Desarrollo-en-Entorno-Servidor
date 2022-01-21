@@ -9,7 +9,10 @@
 	if (!isset($_SESSION['nif'])){
 		header("location: comlogincli.php");
 	}
-    	
+	accionEnvio();
+	
+	
+
 ?>
 <html>
 <head>
@@ -23,31 +26,14 @@
 			<div>
 				<input type="submit" value="Comprar Productos" name="comprar">
 				<input type="submit" value="Consulta Compras" name="consultar">
-				<input type="submit" value="Cerrar Sesión" name="cerrar">
+				<input type="submit" value="Cerrar Sesion" name="cerrar">
 			</div>	
 		</form>
 </body>
 </html>
 <?php
 // var_dump($_POST);
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$valor1 = limpieza($_POST["comprar"]);
-		$valor2 = limpieza($_POST["consultar"]);
-		$valor3 = limpieza($_POST["cerrar"]);
-		
-		
-		if($valor1){
-			header("location: compro.php");
-		}
-		else if($valor2){
-			header("location: comconscom.php");
-		}
-		else if($valor3){
-			// remove all session variables
-			session_unset();
-			// destroy the session
-			session_destroy();
-			header("location: comlogincli.php");
-		}
-	}
+		$productos=$_SESSION['datos'];
+		carritoComprar($productos);
+    	
 ?>

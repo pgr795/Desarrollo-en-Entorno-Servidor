@@ -44,8 +44,40 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 		$conexion = null;	
 	}
 
+//--------------------------------------------------------------------------------------------------------
+	function carritoComprar($productos){
+		echo "<h2>Carrito de la compra</h2>";
+		foreach($productos as $clave => $valor){
+				echo "<p>Producto:$valor[0] Unidades:$valor[1]</p>";
+		}
+		$_SESSION['datos']=null;
+	}
+//--------------------------------------------------------------------------------------------------------		
+	function accionEnvio(){
 	
-//------------------------------------------------------------------------------------------------------------------
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			$valor1 = limpieza($_POST["comprar"]);
+			$valor2 = limpieza($_POST["consultar"]);
+			$valor3 = limpieza($_POST["cerrar"]);
+			
+			
+			if($valor1=="Comprar Productos"){
+				header("location: compro.php");
+			}
+			else if($valor2=="Consulta Compras"){
+				header("location: comconscom.php");
+			}
+			else if($valor3=="Cerrar Sesion"){
+				// remove all session variables
+				session_unset();
+				// destroy the session
+				session_destroy();
+				header("location: comlogincli.php");
+			}
+		}
+	}
+	
+//--------------------------------------------------------------------------------------------------------
 	//Validaciones
 	function validacion($nif){
 		$numero=substr($nif,0,7);
@@ -68,8 +100,7 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 	}
 	
 	
-// -----------------------------------------------------------------------------------------------------------------	
-
+//-----------------------------------------------------------------------------------------------------------------	
 	//GENERAR CODIGOS DE CAMPOS
 	function generarCodigo(){
 		try {
@@ -232,10 +263,10 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 		$conexion = null;
 	}
 	
-	function mostrarSelect4(){
+	function mostrarSelect4($nif){
 		try {
 			$conexion=crear_conexion();
-			$stmt = $conexion->prepare("SELECT nif,nombre FROM cliente");
+			$stmt = $conexion->prepare("SELECT nif,nombre FROM cliente where nif='$nif'");
 			$stmt->execute();
 			$resultado = $stmt->setFetchMode(PDO::FETCH_ASSOC);
 			echo "<select name='cliente'>";
@@ -278,33 +309,6 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 		$conexion = null;	
 	}
 	
-	
-	function insertar_cliente($conexion,$NIF,$Nombre,$Apellido,$CP,$Direccion,$Ciudad){
-		try {
-			if(empty($NIF)){
-				$nifErr = "<p>NIF ES REQUERIDO</p>";
-				echo $nifErr;
-			} 
-			else{
-				if(!validacion($NIF)){
-					$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-					$stmt = $conexion->prepare("INSERT INTO cliente (nif,nombre,apellido,cp,direccion,ciudad)
-					VALUES ('$NIF','$Nombre','$Apellido','$CP','$Direccion','$Ciudad')");
-					$stmt->execute();		
-					echo "<br>";
-					echo "<p>Cliente añadido</p>";
-				}
-				else{
-					echo "<p>FORMATO DE NIF INCORRECTO</p>";
-				}
-			}
-		}
-		catch(PDOException $e) {
-			echo "Error al insertar Cliente: ". $e->getMessage();
-		}
-		$conexion = null;	
-	}
-
 	function insertar_Producto($conexion,$producto,$precio,$categoria){
 		try {
 			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -380,6 +384,37 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 // -----------------------------------------------------------------------------------------------------------------	
 	
 	// CONSULTAS DE CAMPOS
+	
+	function recogerDatos($conexion,$producto){
+		try {
+			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+			$stmt = $conexion->prepare("SELECT id_producto,unidades FROM compra WHERE id_producto='$producto'");
+			$stmt->execute();
+			
+			$cod="";
+			$unidades="";
+			
+			foreach($stmt->fetchAll() as $consulta){
+				$cod=$consulta['id_producto'];
+				$unidades=$consulta['unidades'];
+			}
+			
+			if(!$cod="" && !$unidades==""){
+				$datos=array("$cod","$unidades");
+				return $datos;
+			}
+			else{
+				echo "ERROR";
+			}
+			
+			
+		}
+		catch(PDOException $e) {
+			echo "Error al insertar cantidad: ". $e->getMessage();
+		}
+		$conexion = null;	
+	}
 	
 	function consultarStock($conexion,$producto){
 		try {
@@ -466,9 +501,9 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 		$stmt->execute();
 		
 		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);//Guardo los resultados
-        foreach($stmt->fetchAll() as $row) {
-			echo "Cliente: ".$row['CLIENTE']." || Producto: ".$row['PRODUCTO']." || Precio: ".$row['PRECIO']."€ ||FechaCompra ".$row['FECHA_COMPRA'];
-			$total += $row['PRECIO'];
+        foreach($stmt->fetchAll() as $consulta) {
+			echo "Cliente: ".$consulta['CLIENTE']." || Producto: ".$consulta['PRODUCTO']." || Precio: ".$consulta['PRECIO']."€ ||FechaCompra ".$consulta['FECHA_COMPRA'];
+			$total += $consulta['PRECIO'];
 			echo "<br>";
        }
 	   echo "Total: ".$total."€";

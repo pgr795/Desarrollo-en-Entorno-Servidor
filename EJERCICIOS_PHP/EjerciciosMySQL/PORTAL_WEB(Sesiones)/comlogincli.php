@@ -26,6 +26,7 @@
 				session_start();
 				$_SESSION['nombre'] = $usuarioBD;
 				$_SESSION['nif'] = $nifBD;
+				var_dump($_SESSION);
 				header("location: comprocli.php");
 				
 			}
@@ -51,5 +52,8 @@
 			<p>Contraseña<input type='text' name='contraseña' size=15></p>
 			<input type='submit' name='submit' value='Iniciar Sesion'/>
 		</form>
+		<div>
+		
+		</div>
 </body>
 </html>
