@@ -33,7 +33,9 @@
 </html>
 <?php
 // var_dump($_POST);
+if (isset($_SESSION['datos'])){
 		$productos=$_SESSION['datos'];
 		carritoComprar($productos);
+}
     	
 ?>

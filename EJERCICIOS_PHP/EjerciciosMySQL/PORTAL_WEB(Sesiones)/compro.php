@@ -5,7 +5,7 @@
 	if (!isset($_SESSION['nif'])){
 		header("location: comlogincli.php");
 	}
-	var_dump($_SESSION);
+	
 ?>
 <html>
 <head>
@@ -21,8 +21,9 @@
 			?>
 			<p>Unidades: <input type='text' name='Unidades' size=15></p>
 			<div>
-				<input type="submit" name="submit" value="Alta Compra"/>
-				<input type="submit" name="submit" value="Atras">
+				<input type="submit" name="submit" value="Agregar"/>
+				<input type="submit" name="submit" value="Finalizar"/>
+				<input type="submit" name="submit" value="Borrar">
 			</div>
 		</form>
 </body>
@@ -41,22 +42,14 @@ var_dump($_POST);
 		$conexion=crear_conexion();
 		$accion=$valor4 ;
 		
-		$almacen=disponibilidadAlmacen($conexion,$producto);
-		
-		// var_dump($almacen);
-		
-		compraDeProductos($conexion,$cliente,$producto,$fechaCompra,$unidades);
-				//actualizarAlmacen($conexion,$producto,$unidades);
-			
-		
-				$datos=array();
-			
-				//cod nombre canti
+		$datos=array();
 
-				if($accion=="Alta Compra"){
+				if($accion=="Agregar"){
+					compraDeProductos($conexion,$cliente,$producto,$fechaCompra,$unidades);
+					
 					if(!isset($_SESSION['datos'])){
 						$datos=array(recogerDatos($conexion,$producto));
-						var_dump($datos);
+						//var_dump($datos);
 						$_SESSION['datos']=$datos;
 					}
 					else{
@@ -65,9 +58,16 @@ var_dump($_POST);
 					   
 					}
 				}
-				else if($accion=="Atras"){
-					header("location: comprocli.php");
+				else if($accion=="Finalizar"){
+					$datosRecogidos=$_SESSION['datos'];
+					actualizarAlmacen($conexion,$datosRecogidos);
+					//header("location: comprocli.php");
 				}
+				else if($accion=="Borrar"){
+					unset($_SESSION['datos']);
+				}
+	
+				//var_dump($_SESSION);
 	}
 
 ?>

@@ -50,7 +50,7 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 		foreach($productos as $clave => $valor){
 				echo "<p>Producto:$valor[0] Unidades:$valor[1]</p>";
 		}
-		$_SESSION['datos']=null;
+		unset($_SESSION['datos']);
 	}
 //--------------------------------------------------------------------------------------------------------		
 	function accionEnvio(){
@@ -400,15 +400,10 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 				$unidades=$consulta['unidades'];
 			}
 			
-			if(!$cod="" && !$unidades==""){
-				$datos=array("$cod","$unidades");
-				return $datos;
-			}
-			else{
-				echo "ERROR";
-			}
 			
-			
+			$datos=array("$cod","$unidades");
+			return $datos;
+
 		}
 		catch(PDOException $e) {
 			echo "Error al insertar cantidad: ". $e->getMessage();
@@ -515,16 +510,37 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 	
 	// ACTUALIZAR CAMPOS
 	
-	function actualizarAlmacen($conexion,$producto,$unidades){
+	function actualizarAlmacen($conexion,$datosRecogidos){
 		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$stmt = $conexion->prepare("SELECT ALMACENA.CANTIDAD AS STOCK FROM PRODUCTO,ALMACEN,ALMACENA
-                              WHERE PRODUCTO.ID_PRODUCTO = ALMACENA.ID_PRODUCTO AND ALMACEN.NUM_ALMACEN = ALMACENA.NUM_ALMACEN
-                              AND PRODUCTO.ID_PRODUCTO = '$producto'");
-		$stmt->execute();
+		$conexion2=crear_conexion();
+		$unidades="";
+		$productos="";
 		
-		foreach($stmt->fetchAll() as $consulta){
-				$stock=$consulta["STOCK"];
+		foreach($datosRecogidos as $indice => $valor){
+			$productos=$valor[0];
+			$unidades=$valor[1];
+			//var_dump($unidades);
+			//var_dump($productos);
+			
+			$stmt = $conexion->prepare("SELECT ALMACENA.CANTIDAD AS STOCK FROM PRODUCTO,ALMACEN,ALMACENA
+                              WHERE PRODUCTO.ID_PRODUCTO = ALMACENA.ID_PRODUCTO AND ALMACEN.NUM_ALMACEN = ALMACENA.NUM_ALMACEN
+                              AND PRODUCTO.ID_PRODUCTO = '$productos'");
+			$stmt->execute();
+			
+			foreach($stmt->fetchAll() as $consulta){
+					$stock=$consulta["STOCK"];
+					//var_dump($stock);
+					if($stock>0){
+						$stmt2 = $conexion2->prepare("UPDATE ALMACENA SET CANTIDAD=CANTIDAD-'$unidades' WHERE ID_PRODUCTO='$productos'");
+						$stmt2->execute();
+					}
+					else{
+						echo "No hay unidades en este momento";
+					}
+					//var_dump($stock);
+			}
 		}
+		$conexion=null;
+		$conexion2=null;
 	}
-	
 ?>
