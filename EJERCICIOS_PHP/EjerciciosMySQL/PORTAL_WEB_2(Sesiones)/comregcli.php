@@ -31,7 +31,6 @@
 		$valor5 = limpieza($_POST["direccion"]);
 		$valor6 = limpieza($_POST["ciudad"]);
 	
-		$nif=$valor1;
 		$nombre=$valor2;
 		$apellido=$valor3;
 		$cp=$valor4;
@@ -39,8 +38,17 @@
 		$ciudad=$valor6;
 		$clave=generarClave($apellido);
 		$conexion=crear_conexion();
+		$valido=validacion($valor1);
+		if($valido){
+			$nif=$valor1;
+			añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,$clave);
+		}
+		else{
+			echo "NIF NO ES VALIDO";
+		}
 		
-		añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,$clave);
+		
+	
 
 	}
 ?>

@@ -30,13 +30,15 @@ function generarClave($apellido){
 function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,$clave){
 	try {
 		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			
-		$stmt = $conexion->prepare("INSERT INTO cliente (nif,nombre,apellido,cp,direccion,ciudad,clave)
-		VALUES ('$nif','$nombre','$apellido','$cp','$direccion','$ciudad','$clave')");
-		$stmt->execute();
-		header("location: comlogincli.php");
-		echo "<br>";
-		echo "Cliente añadido";
+		if($nif!="" || $nombre!="" || $apellido!="" || $cp!="" || $direccion!="" || $ciudad!=""){	
+			$stmt = $conexion->prepare("INSERT INTO cliente (nif,nombre,apellido,cp,direccion,ciudad,clave)
+			VALUES ('$nif','$nombre','$apellido','$cp','$direccion','$ciudad','$clave')");
+			$stmt->execute();
+			header("location: comlogincli.php");
+		}
+		else{
+			echo "HAY CAMPOS VACIOS";		
+		}
 	}
 	catch(PDOException $e) {
 			echo "Error al insertar cliente: ". $e->getMessage();
@@ -47,8 +49,15 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 //--------------------------------------------------------------------------------------------------------
 	function carritoComprar($productos){
 		echo "<h2>Carrito de la compra</h2>";
+		$aux=count($productos);
+		//var_dump($aux);
 		foreach($productos as $clave => $valor){
-				echo "<p>Producto:$valor[0] Unidades:$valor[1]</p>";
+				if($aux==1){
+					echo "<p>$valor</p>";
+				}
+				else{
+					echo "<p>Producto:$valor[0] Unidades:$valor[1]</p>";
+				}
 		}
 		unset($_SESSION['datos']);
 	}
@@ -80,23 +89,27 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 //--------------------------------------------------------------------------------------------------------
 	//Validaciones
 	function validacion($nif){
-		$numero=substr($nif,0,7);
+		$numero=substr($nif,0,8);
 		$letra=substr($nif,-1);
 		$correcto=true;
-		if(strlen($nif)==8 && $nif!=""){
+		if(strlen($nif)==9 && $nif!=""){
 			for($i=0;$i<strlen($numero);$i++){
-				if(!is_numeric(substr($numero,$i,1))){
+				if(!is_numeric($numero[$i])){
+					$correcto=false;
+				}
+				if(!ctype_alpha($letra)){
 					$correcto=false;
 				}
 			}
-			if(!ctype_alpha($letra)){
-				$correcto=false;
-			}
-			else{
-				$correcto=false;
-			}
-			return $correcto;
 		}
+		else{
+			$correcto=false;
+		}
+			var_dump($correcto);
+			var_dump($numero);
+			var_dump($letra);
+			return $correcto;
+		
 	}
 	
 	
@@ -402,7 +415,6 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 	
 	// CONSULTAS DE CAMPOS
 	
-	
 	function consultarStock($conexion,$producto){
 		try {
 			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -458,23 +470,7 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 	}
 	
 
-	function consultarCompras2($conexion,$cliente,$fechaIni,$fechaFin){
-		$total=0;
-		
-		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$stmt = $conexion->prepare("SELECT CLIENTE.NOMBRE AS CLIENTE,PRODUCTO.NOMBRE AS PRODUCTO,PRODUCTO.PRECIO,COMPRA.FECHA_COMPRA FROM CLIENTE,PRODUCTO,COMPRA
-        WHERE CLIENTE.NIF = COMPRA.NIF AND PRODUCTO.ID_PRODUCTO = COMPRA.ID_PRODUCTO
-        AND CLIENTE.NIF = '$cliente' AND COMPRA.FECHA_COMPRA >= '$fechaIni' AND COMPRA.FECHA_COMPRA <= '$fechaFin'");
-		$stmt->execute();
-		
-		$result = $stmt->setFetchMode(PDO::FETCH_ASSOC);//Guardo los resultados
-        foreach($stmt->fetchAll() as $consulta) {
-			echo "Cliente: ".$consulta['CLIENTE']." || Producto: ".$consulta['PRODUCTO']." || Precio: ".$consulta['PRECIO']."€ ||FechaCompra ".$consulta['FECHA_COMPRA'];
-			$total += $consulta['PRECIO'];
-			echo "<br>";
-       }
-	   echo "Total: ".$total."€";
-    }
+	
 		
 	
 	
@@ -494,21 +490,19 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 			//var_dump($unidades);
 			//var_dump($productos);
 			
-			$stmt = $conexion->prepare("SELECT ALMACENA.CANTIDAD AS STOCK FROM PRODUCTO,ALMACEN,ALMACENA
-                              WHERE PRODUCTO.ID_PRODUCTO = ALMACENA.ID_PRODUCTO AND ALMACEN.NUM_ALMACEN = ALMACENA.NUM_ALMACEN
-                              AND PRODUCTO.ID_PRODUCTO = '$productos'");
+			$stmt = $conexion->prepare("select num_almacen,cantidad from almacena where id_producto='$productos'");
 			$stmt->execute();
 			
 			foreach($stmt->fetchAll() as $consulta){
-					$stock=$consulta["STOCK"];
+					$stock=$consulta['cantidad'];
 					var_dump($stock);
 					var_dump($unidades);
 					if($stock>$unidades){
-						$stmt2 = $conexion2->prepare("UPDATE ALMACENA SET CANTIDAD=CANTIDAD-'$unidades' WHERE ID_PRODUCTO='$productos'");
+						$stmt2 = $conexion2->prepare("UPDATE almacena SET cantidad = cantidad - '$unidades' WHERE id_producto = '$productos'");
 						$stmt2->execute();
 					}
 					else{
-						$_SESSION['datos']= "No hay unidades del $productos en este momento";
+						$_SESSION['datos']=array("No hay unidades del $productos en este momento");
 					}
 					//var_dump($stock);
 			}

@@ -37,7 +37,7 @@
 		
 		$cliente=$_SESSION['nif'];
 		$producto=$valor2;
-		$unidades= $_POST["Unidades"];
+		$unidades= $valor3;
 		$fechaCompra=date('Y-m-d');
 		$conexion=crear_conexion();
 		$accion=$valor4 ;

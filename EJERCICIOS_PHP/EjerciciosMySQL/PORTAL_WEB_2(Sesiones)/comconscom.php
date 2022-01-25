@@ -17,7 +17,8 @@
 		<form>
 			<p>NIF</p>
 			<?php
-				mostrarSelect4();
+				$nif=$_SESSION['nif'];
+				mostrarSelect4($nif);
 			?>
 			<p>Fecha desde: <input type='text' name='fechaIni' size=15></p>
 			<p>Fecha hasta: <input type='text' name='fechaFin' size=15></p>
