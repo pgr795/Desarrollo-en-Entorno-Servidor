@@ -47,9 +47,9 @@
 				if($accion=="Agregar"){
 					if(!isset($_SESSION['datos'])){
 						if($unidades!=""){
-						var_dump($unidades);
+						//var_dump($unidades);
 							$datos=array(array($producto,$unidades));
-							var_dump($datos);
+							//var_dump($datos);
 							$_SESSION['datos']=$datos;
 							$aux=$_SESSION['datos'];
 							mostrarProductos($aux);
