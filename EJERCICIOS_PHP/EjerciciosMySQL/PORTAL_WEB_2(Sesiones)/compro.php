@@ -29,15 +29,15 @@
 </body>
 </html>
 <?php
-var_dump($_POST);
+//var_dump($_POST);
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$valor2 = limpieza($_POST["producto"]);
-		$valor3 = limpieza($_POST["Unidades"]);
+		$valor3 = $_POST["Unidades"];
 		$valor4 = limpieza($_POST["submit"]);
 		
 		$cliente=$_SESSION['nif'];
 		$producto=$valor2;
-		$unidades=$valor3;
+		$unidades= $_POST["Unidades"];
 		$fechaCompra=date('Y-m-d');
 		$conexion=crear_conexion();
 		$accion=$valor4 ;
@@ -45,20 +45,36 @@ var_dump($_POST);
 		$datos=array();
 
 				if($accion=="Agregar"){
-					compraDeProductos($conexion,$cliente,$producto,$fechaCompra,$unidades);
-					
 					if(!isset($_SESSION['datos'])){
-						$datos=array(recogerDatos($conexion,$producto));
-						//var_dump($datos);
-						$_SESSION['datos']=$datos;
+						if($unidades!=""){
+						var_dump($unidades);
+							$datos=array(array($producto,$unidades));
+							var_dump($datos);
+							$_SESSION['datos']=$datos;
+							$aux=$_SESSION['datos'];
+							mostrarProductos($aux);
+						}
+						else{
+							echo "No has seleccionado unidades";
+							}
 					}
 					else{
-					   $datos=recogerDatos($conexion,$producto);
-					   array_push($_SESSION['datos'],$datos);
+						if($unidades!=""){
+							$datos=array($producto,$unidades);
+							array_push($_SESSION['datos'],$datos);
+							$aux=$_SESSION['datos'];
+							mostrarProductos($aux);
+						}
+						else{
+							echo "No has seleccionado unidades";
+							}
+							var_dump($unidades);
 					}
+					
 				}
 				else if($accion=="Finalizar"){
 					$datosRecogidos=$_SESSION['datos'];
+					compraDeProductos($conexion,$cliente,$fechaCompra,$datosRecogidos);
 					actualizarAlmacen($conexion,$datosRecogidos);
 					header("location: comprocli.php");
 				}
@@ -70,5 +86,6 @@ var_dump($_POST);
 	
 				var_dump($_SESSION);
 	}
+
 
 ?>

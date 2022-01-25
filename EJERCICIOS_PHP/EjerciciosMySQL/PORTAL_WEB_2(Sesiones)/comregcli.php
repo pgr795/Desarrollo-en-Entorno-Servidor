@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h2>Alta de Registro</h2>
-		<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
+	<form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			<p>NIF: <input type='text' name='nif' size=15></p>
 			<p>Nombre: <input type='text' name='nombre' size=15></p>
 			<p>Apellido: <input type='text' name='apellido' size=15></p>

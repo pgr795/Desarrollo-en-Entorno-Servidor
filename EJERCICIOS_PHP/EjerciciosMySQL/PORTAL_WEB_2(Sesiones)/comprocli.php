@@ -36,6 +36,7 @@
 if (isset($_SESSION['datos'])){
 		$productos=$_SESSION['datos'];
 		carritoComprar($productos);
+		
 }
     	
 ?>

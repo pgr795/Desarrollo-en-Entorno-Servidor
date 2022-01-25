@@ -1,7 +1,7 @@
 <?php
 
 function limpieza($datos) {
-	$datos = trim($datos);
+	  $datos = trim($datos);
 	  $datos = stripslashes($datos);
 	  $datos = htmlspecialchars($datos);
 	  return $datos;
@@ -282,7 +282,18 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 		}
 		$conexion = null;
 	}
-
+	
+	function mostrarProductos($aux){
+	
+		$datos=$aux;
+		
+		foreach($datos as $indice => $valor){
+			echo "<p>Producto:$valor[0] Unidades:$valor[1]</p>";
+		}
+	}
+	
+	
+	
 // -----------------------------------------------------------------------------------------------------------------	
 
 	//INSERTAR NUEVO CAMPOS
@@ -365,21 +376,21 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 		$conexion = null;	
 	}
 	
-	function compraDeProductos($conexion,$cliente,$producto,$fechaCompra,$unidades){
+	function compraDeProductos($conexion,$cliente,$fechaCompra,$datosRecogidos){
 		try {
 			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			
-			if(!$producto=="" || !$unidades==""){
-					$stmt = $conexion->prepare("INSERT INTO compra (nif,id_producto,fecha_compra,unidades)
-					VALUES ('$cliente','$producto','$fechaCompra','$unidades')");
-					$stmt->execute();
-					echo "Compra Realizada";
-				}
-			else{
-				echo "Error al agregar el producto";
+			var_dump($datosRecogidos);
+				foreach($datosRecogidos as $indice => $valor){
+					$productos=$valor[0];
+					$unidades=$valor[1];
+					//var_dump($unidades);
+					//var_dump($productos);
+						$stmt = $conexion->prepare("INSERT INTO compra (nif,id_producto,fecha_compra,unidades)
+						VALUES ('$cliente','$productos','$fechaCompra','$unidades')");
+						$stmt->execute();
+						echo "Compra Realizada";
+					}	
 			}
-			
-		}
 		catch(PDOException $e) {
 			echo "Error al comprar el Producto: ". $e->getMessage();
 		}
@@ -391,31 +402,6 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 	
 	// CONSULTAS DE CAMPOS
 	
-	function recogerDatos($conexion,$producto){
-		try {
-			$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-			$stmt = $conexion->prepare("SELECT id_producto,unidades FROM compra WHERE id_producto='$producto'");
-			$stmt->execute();
-			
-			$cod="";
-			$unidades="";
-			
-			foreach($stmt->fetchAll() as $consulta){
-				$cod=$consulta['id_producto'];
-				$unidades=$consulta['unidades'];
-			}
-			
-			
-			$datos=array("$cod","$unidades");
-			return $datos;
-
-		}
-		catch(PDOException $e) {
-			echo "Error al insertar cantidad: ". $e->getMessage();
-		}
-		$conexion = null;	
-	}
 	
 	function consultarStock($conexion,$producto){
 		try {
@@ -522,7 +508,7 @@ function añadirCliente($conexion,$nif,$nombre,$apellido,$cp,$direccion,$ciudad,
 						$stmt2->execute();
 					}
 					else{
-						echo "No hay unidades del $productos en este momento";
+						$_SESSION['datos']= "No hay unidades del $productos en este momento";
 					}
 					//var_dump($stock);
 			}
