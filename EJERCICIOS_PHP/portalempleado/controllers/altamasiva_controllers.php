@@ -1,0 +1,73 @@
+<?php
+session_start();
+//Llamada a la view
+require_once("../views/altamasiva_views.php");
+
+//Llamada al modelo
+require_once("../models/altamasiva_model.php");
+
+require_once("../db/db.php");
+
+
+
+
+//Recogiendo datos del usuario
+
+	$nombre="";
+	$apellido="";
+	$fecha_nacimiento="";
+	$genero="";
+	$contratacion="";
+	$expiracion="";
+	$departamento="";
+	$salario="";
+	$cargo="";
+	$idNuevo="";
+	$fecha="";
+	$accion="";
+
+if($_SERVER["REQUEST_METHOD"] == "POST") {
+	var_dump($_POST);
+	$nombre=$_POST["nombre"];
+	$apellido=$_POST["apellido"];
+	$fecha_nacimiento=$_POST["birth"];
+	$genero=$_POST["gender"];
+	$contratacion=$_POST["date"];
+	$expiracion=$_POST["expirar"];
+	$departamento = $_POST["departamentos"];
+	$salario=$_POST["salario"];
+	$cargo = $_POST["cargo"];
+	
+	
+	$accion=$_POST['accion'];
+	$listado=array();
+				if($accion=="Agregar Empleado"){
+					if(!isset($_SESSION['empleados'])){
+							$datos=array(array($nombre,$apellido,$fecha_nacimiento,$genero,$contratacion,$expiracion,$departamento,$salario,$cargo));
+							$_SESSION['empleados']=$datos;
+							$aux=$_SESSION['empleados'];
+							mostrarEmpleado($aux);
+					}
+					else{
+							$datos=array($nombre,$apellido,$fecha_nacimiento,$genero,$contratacion,$expiracion,$departamento,$salario,$cargo);
+							array_push($_SESSION['empleados'],$datos);
+							$aux=$_SESSION['empleados'];
+							mostrarEmpleado($aux);
+					}
+				}
+				else if($accion=="Dar Alta"){
+						$datosRecogidos=$_SESSION['empleados'];
+						altaEmpleado($datosRecogidos);
+				}
+				else if($accion=="Vaciar Listado"){
+					unset($_SESSION['empleados']);
+				}
+
+	
+}
+
+
+	
+
+
+?>
