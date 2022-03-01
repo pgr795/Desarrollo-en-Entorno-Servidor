@@ -1,0 +1,9 @@
+Models devolver los resultados de las consultas con -> Fetch all (PDO:Fetch-$Assoc);
+
+Algun echo se puede dentro de los models
+
+Llamar a los ficheros por sus funciones para no liarme
+
+LLamar a las sesiones por el dato que es.
+
+Usar siempre include_once para no liarme.
