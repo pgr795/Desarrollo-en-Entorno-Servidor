@@ -15,13 +15,14 @@
 		<BR>
 
 		<B>Bienvenido/a:</B><?php echo $_SESSION['usuario']; ?> <BR><BR>
-		<B>Identificador Cliente:</B><?php echo $_SESSION['id']; ?>  <BR><BR>
+		<B>Identificador Empleado:</B><?php echo $_SESSION['id']; ?>  <BR><BR>
 	 
 		
        <!--Formulario con botones -->
 	
 		<input type="button" value="Alta de Sorteos" onclick="window.location.href='AltaSorteo_controllers.php'" class="btn btn-warning disabled">
 		<input type="button" value="Realizar Sorteo" onclick="window.location.href='RealizarSorteo_controllers.php'" class="btn btn-warning disabled">
+		<input type="button" value="Consultar Sorteo" onclick="window.location.href='ConsultarSorteo_controllers.php'" class="btn btn-warning disabled">
 		</br></br>
 		
 		

@@ -24,7 +24,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 			foreach($respuesta as $consulta){
 				$_SESSION['id']=$consulta['dni'];
 				$_SESSION['usuario']=$consulta['nombre']." ".$consulta['apellido'];	
-			}
+				}
 			header("Location:Inicio_Hacienda_controllers.php");
 		}
 	}

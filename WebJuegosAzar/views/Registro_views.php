@@ -1,7 +1,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Registro</title>
+	<title>Registro Empleado</title>
 </head>
 <body>
 	<h2>Alta de Registro</h2>

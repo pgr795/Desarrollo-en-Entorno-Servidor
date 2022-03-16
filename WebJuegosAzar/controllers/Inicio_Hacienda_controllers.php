@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+unset($_SESSION['combinacion']);
 if(!isset($_SESSION['id']) && !isset($_SESSION['usuario'])){
 		header("Location:../index.php");
 }
