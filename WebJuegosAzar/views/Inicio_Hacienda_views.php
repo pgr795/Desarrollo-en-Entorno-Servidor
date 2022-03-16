@@ -20,8 +20,8 @@
 		
        <!--Formulario con botones -->
 	
-		<input type="button" value="Alta de Sorteos" onclick="window.location.href='alquiler_controllers.php'" class="btn btn-warning disabled">
-		<input type="button" value="Realizar Sorteo" onclick="window.location.href='consultar_controllers.php'" class="btn btn-warning disabled">
+		<input type="button" value="Alta de Sorteos" onclick="window.location.href='AltaSorteo_controllers.php'" class="btn btn-warning disabled">
+		<input type="button" value="Realizar Sorteo" onclick="window.location.href='RealizarSorteo_controllers.php'" class="btn btn-warning disabled">
 		</br></br>
 		
 		
